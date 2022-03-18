@@ -80,7 +80,7 @@ lint-json: ## lint json by jsonlint and prettier
 # Format code
 #
 .PHONY: format
-format: format-markdown format-yaml format-shell ## format all
+format: format-markdown format-yaml format-shell format-json ## format all
 
 .PHONY: format-markdown
 format-markdown: ## format markdown by prettier
