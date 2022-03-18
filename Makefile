@@ -89,6 +89,10 @@ format-yaml: ## format yaml by prettier
 format-shell: ## format shell by shfmt
 	$(SECURE_DOCKER_RUN) mvdan/shfmt -i 2 -ci -bn -w **/*.sh
 
+.PHONY: format-json
+format-json: ## format json by prettier
+	$(SECURE_DOCKER_RUN) prettier --write --parser=json **/*.json
+
 #
 # Release management
 #
