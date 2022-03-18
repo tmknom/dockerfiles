@@ -52,6 +52,12 @@ DOCKER_RUN ?= $(DOCKER) run $(DOCKER_RUN_OPTIONS)
 SECURE_DOCKER_RUN ?= $(DOCKER_RUN) $(DOCKER_RUN_SECURE_OPTIONS)
 
 #
+# Variables for the image name
+#
+REGISTRY ?= ghcr.io/tmknom/dockerfiles
+PRETTIER ?= $(REGISTRY)/prettier:latest
+
+#
 # Lint
 #
 .PHONY: lint
@@ -65,12 +71,12 @@ lint-dockerfile: ## lint dockerfile by hadolint and dockerfilelint
 .PHONY: lint-markdown
 lint-markdown: ## lint markdown by markdownlint and prettier
 	$(SECURE_DOCKER_RUN) markdownlint --dot --config .markdownlint.yml **/*.md
-	$(SECURE_DOCKER_RUN) prettier --check --parser=markdown **/*.md
+	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=markdown **/*.md
 
 .PHONY: lint-yaml
 lint-yaml: ## lint yaml by yamllint and prettier
 	$(SECURE_DOCKER_RUN) yamllint --strict --config-file .yamllint.yml .
-	$(SECURE_DOCKER_RUN) prettier --check --parser=yaml **/*.y*ml
+	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=yaml **/*.y*ml
 
 .PHONY: lint-shell
 lint-shell: ## lint shell by shellcheck and shfmt
@@ -80,7 +86,7 @@ lint-shell: ## lint shell by shellcheck and shfmt
 .PHONY: lint-json
 lint-json: ## lint json by jsonlint and prettier
 	$(SECURE_DOCKER_RUN) jsonlint --quiet --compact **/*.json
-	$(SECURE_DOCKER_RUN) prettier --check --parser=json **/*.json
+	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=json **/*.json
 
 #
 # Format code
@@ -90,11 +96,11 @@ format: format-markdown format-yaml format-shell format-json ## format all
 
 .PHONY: format-markdown
 format-markdown: ## format markdown by prettier
-	$(SECURE_DOCKER_RUN) prettier --write --parser=markdown **/*.md
+	$(SECURE_DOCKER_RUN) $(PRETTIER) --write --parser=markdown **/*.md
 
 .PHONY: format-yaml
 format-yaml: ## format yaml by prettier
-	$(SECURE_DOCKER_RUN) prettier --write --parser=yaml **/*.y*ml
+	$(SECURE_DOCKER_RUN) $(PRETTIER) --write --parser=yaml **/*.y*ml
 
 .PHONY: format-shell
 format-shell: ## format shell by shfmt
@@ -102,7 +108,7 @@ format-shell: ## format shell by shfmt
 
 .PHONY: format-json
 format-json: ## format json by prettier
-	$(SECURE_DOCKER_RUN) prettier --write --parser=json **/*.json
+	$(SECURE_DOCKER_RUN) $(PRETTIER) --write --parser=json **/*.json
 
 #
 # Release management
