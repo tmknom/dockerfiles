@@ -20,10 +20,35 @@ env:
   IMAGE_NAME: prettier
 
 jobs:
-  build-and-push:
-    name: Build and push
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run hadolint
+        run: |
+          set -x
+          docker run --rm -v "$(pwd)":/work -w /work \
+          --security-opt=no-new-privileges --cap-drop all --network none \
+          hadolint/hadolint hadolint "${IMAGE_NAME}/Dockerfile"
+
+      - name: Run dockerfilelint
+        run: |
+          set -x
+          docker run --rm -v "$(pwd)":/work -w /work \
+          --security-opt=no-new-privileges --cap-drop all --network none \
+          replicated/dockerfilelint "${IMAGE_NAME}/Dockerfile"
+
+  metadata:
+    name: Extract metadata
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      tags: ${{ steps.meta.outputs.tags }}
+      labels: ${{ steps.meta.outputs.labels }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -43,6 +68,15 @@ jobs:
             type=raw,value=latest
             type=raw,value=${{ steps.version.outputs.semver }}
 
+  build-and-push:
+    name: Build and push
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [lint, metadata]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Log in to the Container registry
         uses: docker/login-action@v1
         with:
@@ -55,5 +89,5 @@ jobs:
         with:
           context: ${{ env.IMAGE_NAME }}/
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ needs.metadata.outputs.tags }}
+          labels: ${{ needs.metadata.outputs.labels }}
