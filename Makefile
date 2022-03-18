@@ -75,7 +75,7 @@ lint-shell: ## lint shell by shellcheck and shfmt
 # Format code
 #
 .PHONY: format
-format: format-markdown format-yaml ## format all
+format: format-markdown format-yaml format-shell ## format all
 
 .PHONY: format-markdown
 format-markdown: ## format markdown by prettier
@@ -84,6 +84,10 @@ format-markdown: ## format markdown by prettier
 .PHONY: format-yaml
 format-yaml: ## format yaml by prettier
 	$(SECURE_DOCKER_RUN) prettier --write --parser=yaml **/*.y*ml
+
+.PHONY: format-shell
+format-shell: ## format shell by shfmt
+	$(SECURE_DOCKER_RUN) mvdan/shfmt -i 2 -ci -bn -w **/*.sh
 
 #
 # Release management
