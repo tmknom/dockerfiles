@@ -54,7 +54,7 @@ SECURE_DOCKER_RUN ?= $(DOCKER_RUN) $(DOCKER_RUN_SECURE_OPTIONS)
 # Lint
 #
 .PHONY: lint
-lint: lint-yaml lint-markdown ## lint all
+lint: lint-yaml lint-markdown lint-shell ## lint all
 
 .PHONY: lint-yaml
 lint-yaml: ## lint yaml by yamllint and prettier
@@ -65,6 +65,11 @@ lint-yaml: ## lint yaml by yamllint and prettier
 lint-markdown: ## lint markdown by markdownlint and prettier
 	$(SECURE_DOCKER_RUN) markdownlint --dot --config .markdownlint.yml **/*.md
 	$(SECURE_DOCKER_RUN) prettier --check --parser=markdown **/*.md
+
+.PHONY: lint-shell
+lint-shell: ## lint shell by shellcheck and shfmt
+	$(SECURE_DOCKER_RUN) koalaman/shellcheck:stable **/*.sh
+	$(SECURE_DOCKER_RUN) mvdan/shfmt -i 2 -ci -bn -d **/*.sh
 
 #
 # Format code
