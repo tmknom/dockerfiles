@@ -26,6 +26,7 @@ SHELL := /bin/bash
 # Variables for the directory path
 #
 ROOT_DIR ?= $(shell $(GIT) rev-parse --show-toplevel)
+DOCKERFILE_DIRS ?= $(shell find . -name Dockerfile)
 
 #
 # Variables to be used by Git and GitHub CLI
@@ -54,7 +55,12 @@ SECURE_DOCKER_RUN ?= $(DOCKER_RUN) $(DOCKER_RUN_SECURE_OPTIONS)
 # Lint
 #
 .PHONY: lint
-lint: lint-markdown lint-yaml lint-shell lint-json ## lint all
+lint: lint-dockerfile lint-markdown lint-yaml lint-shell lint-json ## lint all
+
+.PHONY: lint-dockerfile
+lint-dockerfile: ## lint dockerfile by hadolint and dockerfilelint
+	$(SECURE_DOCKER_RUN) hadolint/hadolint hadolint $(DOCKERFILE_DIRS)
+	$(SECURE_DOCKER_RUN) replicated/dockerfilelint $(DOCKERFILE_DIRS)
 
 .PHONY: lint-markdown
 lint-markdown: ## lint markdown by markdownlint and prettier
