@@ -54,7 +54,7 @@ SECURE_DOCKER_RUN ?= $(DOCKER_RUN) $(DOCKER_RUN_SECURE_OPTIONS)
 # Lint
 #
 .PHONY: lint
-lint: lint-markdown lint-yaml lint-shell ## lint all
+lint: lint-markdown lint-yaml lint-shell lint-json ## lint all
 
 .PHONY: lint-markdown
 lint-markdown: ## lint markdown by markdownlint and prettier
@@ -70,6 +70,11 @@ lint-yaml: ## lint yaml by yamllint and prettier
 lint-shell: ## lint shell by shellcheck and shfmt
 	$(SECURE_DOCKER_RUN) koalaman/shellcheck:stable **/*.sh
 	$(SECURE_DOCKER_RUN) mvdan/shfmt -i 2 -ci -bn -d **/*.sh
+
+.PHONY: lint-json
+lint-json: ## lint json by jsonlint and prettier
+	$(SECURE_DOCKER_RUN) jsonlint --quiet --compact **/*.json
+	$(SECURE_DOCKER_RUN) prettier --check --parser=json **/*.json
 
 #
 # Format code
