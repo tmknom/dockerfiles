@@ -30,7 +30,9 @@ jobs:
 
       - name: Describe version
         id: version
-        run: echo "::set-output name=semver::$(cat VERSION)"
+        run: |
+          semver="$(jq -r ".dependencies.${IMAGE_NAME}" ./"${IMAGE_NAME}"/package.json)"
+          echo "::set-output name=semver::${semver}"
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
