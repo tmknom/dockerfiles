@@ -23,11 +23,9 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  constants:
+  push:
     runs-on: ubuntu-latest
-    timeout-minutes: 1
-    outputs:
-      semver: ${{ steps.describe.outputs.semver }}
+    timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -38,20 +36,13 @@ jobs:
           semver="$(jq -r ".dependencies.\"${IMAGE_NAME}-cli\"" ./"${IMAGE_NAME}"/package.json)"
           echo "::set-output name=semver::${semver}"
 
-  push:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    needs: [constants]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
       - name: Push Docker
         uses: ./.github/actions/docker_push/
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
           metadata-tags: |
             type=raw,value=latest
-            type=raw,value=${{ needs.constants.outputs.semver }}
+            type=raw,value=${{ steps.describe.outputs.semver }}
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
