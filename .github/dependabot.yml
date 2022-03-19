@@ -25,3 +25,13 @@ updates:
     directory: "/markdownlint"
     schedule:
       interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/yamllint"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "pip"
+    directory: "/yamllint"
+    schedule:
+      interval: "daily"
