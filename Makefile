@@ -55,7 +55,14 @@ SECURE_DOCKER_RUN ?= $(DOCKER_RUN) $(DOCKER_RUN_SECURE_OPTIONS)
 # Variables for the image name
 #
 REGISTRY ?= ghcr.io/tmknom/dockerfiles
+HADOLINT ?= hadolint/hadolint:latest
+DOCKERFILELINT ?= replicated/dockerfilelint:latest
 PRETTIER ?= $(REGISTRY)/prettier:latest
+MARKDOWNLINT ?= markdownlint:latest
+YAMLLINT ?= yamllint:latest
+SHELLCHECK ?= koalaman/shellcheck:stable
+SHFMT ?= mvdan/shfmt:latest
+JSONLINT ?= jsonlint:latest
 
 #
 # Lint
@@ -65,27 +72,27 @@ lint: lint-dockerfile lint-markdown lint-yaml lint-shell lint-json ## lint all
 
 .PHONY: lint-dockerfile
 lint-dockerfile: ## lint dockerfile by hadolint and dockerfilelint
-	$(SECURE_DOCKER_RUN) hadolint/hadolint hadolint $(DOCKERFILE_DIRS)
-	$(SECURE_DOCKER_RUN) replicated/dockerfilelint $(DOCKERFILE_DIRS)
+	$(SECURE_DOCKER_RUN) $(HADOLINT) hadolint $(DOCKERFILE_DIRS)
+	$(SECURE_DOCKER_RUN) $(DOCKERFILELINT) $(DOCKERFILE_DIRS)
 
 .PHONY: lint-markdown
 lint-markdown: ## lint markdown by markdownlint and prettier
-	$(SECURE_DOCKER_RUN) markdownlint --dot --config .markdownlint.yml **/*.md
+	$(SECURE_DOCKER_RUN) $(MARKDOWNLINT) --dot --config .markdownlint.yml **/*.md
 	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=markdown **/*.md
 
 .PHONY: lint-yaml
 lint-yaml: ## lint yaml by yamllint and prettier
-	$(SECURE_DOCKER_RUN) yamllint --strict --config-file .yamllint.yml .
+	$(SECURE_DOCKER_RUN) $(YAMLLINT) --strict --config-file .yamllint.yml .
 	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=yaml **/*.y*ml
 
 .PHONY: lint-shell
 lint-shell: ## lint shell by shellcheck and shfmt
-	$(SECURE_DOCKER_RUN) koalaman/shellcheck:stable **/*.sh
-	$(SECURE_DOCKER_RUN) mvdan/shfmt -i 2 -ci -bn -d **/*.sh
+	$(SECURE_DOCKER_RUN) $(SHELLCHECK) **/*.sh
+	$(SECURE_DOCKER_RUN) $(SHFMT) -i 2 -ci -bn -d **/*.sh
 
 .PHONY: lint-json
 lint-json: ## lint json by jsonlint and prettier
-	$(SECURE_DOCKER_RUN) jsonlint --quiet --compact **/*.json
+	$(SECURE_DOCKER_RUN) $(JSONLINT) --quiet --compact **/*.json
 	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=json **/*.json
 
 #
@@ -104,7 +111,7 @@ format-yaml: ## format yaml by prettier
 
 .PHONY: format-shell
 format-shell: ## format shell by shfmt
-	$(SECURE_DOCKER_RUN) mvdan/shfmt -i 2 -ci -bn -w **/*.sh
+	$(SECURE_DOCKER_RUN) $(SHFMT) -i 2 -ci -bn -w **/*.sh
 
 .PHONY: format-json
 format-json: ## format json by prettier
