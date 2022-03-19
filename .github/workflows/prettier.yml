@@ -22,26 +22,9 @@ env:
 
 jobs:
   lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Run hadolint
-        run: |
-          set -x
-          docker run --rm -v "$(pwd)":/work -w /work \
-          --security-opt=no-new-privileges --cap-drop all --network none \
-          hadolint/hadolint hadolint "${IMAGE_NAME}/Dockerfile"
-
-      - name: Run dockerfilelint
-        run: |
-          set -x
-          docker run --rm -v "$(pwd)":/work -w /work \
-          --security-opt=no-new-privileges --cap-drop all --network none \
-          replicated/dockerfilelint "${IMAGE_NAME}/Dockerfile"
+    uses: ./.github/workflows/reusable-lint-docker.yml
+    with:
+      dockerfile: prettier/Dockerfile
 
   metadata:
     name: Extract metadata
