@@ -7,11 +7,21 @@ updates:
       interval: "daily"
 
   - package-ecosystem: "docker"
-    directory: "/"
+    directory: "/prettier"
     schedule:
       interval: "daily"
 
   - package-ecosystem: "npm"
-    directory: "/"
+    directory: "/prettier"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/markdownlint"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "npm"
+    directory: "/markdownlint"
     schedule:
       interval: "daily"
