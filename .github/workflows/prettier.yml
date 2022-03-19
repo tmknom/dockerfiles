@@ -4,8 +4,6 @@ on:
   push:
     paths:
       - ".github/workflows/prettier.yml"
-    branches-ignore:
-      - "main"
   pull_request:
     paths:
       - "prettier/*"
