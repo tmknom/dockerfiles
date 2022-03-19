@@ -33,7 +33,6 @@ jobs:
     timeout-minutes: 1
     outputs:
       semver: ${{ steps.describe.outputs.semver }}
-      image-name: ${{ env.IMAGE_NAME }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -45,16 +44,21 @@ jobs:
           echo "::set-output name=semver::${semver}"
 
   push:
-    uses: ./.github/workflows/reusable-docker-push.yml
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [lint, constants]
-    with:
-      images: ghcr.io/${{ github.repository }}/${{ needs.constants.outputs.image-name }}
-      metadata-tags: |
-        type=raw,value=latest
-        type=raw,value=${{ needs.constants.outputs.semver }}
-      registry: ghcr.io
-      username: ${{ github.actor }}
-      context: ${{ needs.constants.outputs.image-name }}/
-      push: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true }}
-    secrets:
-      password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Push Docker
+        uses: ./.github/actions/docker_push/
+        with:
+          images: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}
+          metadata-tags: |
+            type=raw,value=latest
+            type=raw,value=${{ needs.constants.outputs.semver }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          context: ${{ env.IMAGE_NAME }}/
+          push: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true }}
