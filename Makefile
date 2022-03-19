@@ -63,7 +63,7 @@ YAMLLINT ?= $(REGISTRY)/yamllint:latest
 ACTIONLINT ?= rhysd/actionlint:latest
 SHELLCHECK ?= koalaman/shellcheck:stable
 SHFMT ?= mvdan/shfmt:latest
-JSONLINT ?= jsonlint:latest
+JSONLINT ?= $(REGISTRY)/jsonlint:latest
 
 #
 # Lint
