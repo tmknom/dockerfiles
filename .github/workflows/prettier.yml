@@ -19,7 +19,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  REGISTRY: ghcr.io
   IMAGE_NAME: prettier
 
 jobs:
@@ -28,52 +27,34 @@ jobs:
     with:
       dockerfile: prettier/Dockerfile
 
-  metadata:
-    name: Extract metadata
+  constants:
+    name: Setup constants
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 1
     outputs:
-      tags: ${{ steps.meta.outputs.tags }}
-      labels: ${{ steps.meta.outputs.labels }}
+      semver: ${{ steps.describe.outputs.semver }}
+      image-name: ${{ env.IMAGE_NAME }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Describe version
-        id: version
+        id: describe
         run: |
           semver="$(jq -r ".dependencies.${IMAGE_NAME}" ./"${IMAGE_NAME}"/package.json)"
           echo "::set-output name=semver::${semver}"
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=raw,value=latest
-            type=raw,value=${{ steps.version.outputs.semver }}
-
-  build-and-push:
-    name: Build and push
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    needs: [lint, metadata]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Log in to the Container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: ${{ env.IMAGE_NAME }}/
-          push: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true }}
-          tags: ${{ needs.metadata.outputs.tags }}
-          labels: ${{ needs.metadata.outputs.labels }}
+  push:
+    uses: ./.github/workflows/reusable-docker-push.yml
+    needs: [lint, constants]
+    with:
+      images: ghcr.io/${{ github.repository }}/${{ needs.constants.outputs.image-name }}
+      metadata-tags: |
+        type=raw,value=latest
+        type=raw,value=${{ needs.constants.outputs.semver }}
+      registry: ghcr.io
+      username: ${{ github.actor }}
+      context: ${{ needs.constants.outputs.image-name }}/
+      push: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true }}
+    secrets:
+      password: ${{ secrets.GITHUB_TOKEN }}
