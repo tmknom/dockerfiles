@@ -20,6 +20,7 @@ concurrency:
 
 env:
   IMAGE_NAME: prettier
+  REGISTRY: ghcr.io
 
 jobs:
   lint:
@@ -28,7 +29,6 @@ jobs:
       dockerfile: prettier/Dockerfile
 
   constants:
-    name: Setup constants
     runs-on: ubuntu-latest
     timeout-minutes: 1
     outputs:
@@ -53,11 +53,11 @@ jobs:
       - name: Push Docker
         uses: ./.github/actions/docker_push/
         with:
-          images: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
           metadata-tags: |
             type=raw,value=latest
             type=raw,value=${{ needs.constants.outputs.semver }}
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           context: ${{ env.IMAGE_NAME }}/
