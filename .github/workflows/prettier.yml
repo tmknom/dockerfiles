@@ -7,6 +7,8 @@ on:
       - ".github/workflows/prettier.yml"
     types:
       - opened
+      - reopened
+      - synchronize
       - closed
 
 permissions:
