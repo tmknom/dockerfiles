@@ -1,0 +1,54 @@
+name: Lint Docker
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/lint-docker.yml"
+  pull_request:
+    paths:
+      - "**/Dockerfile"
+
+jobs:
+  hadolint:
+    name: Lint by hadolint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Pull hadolint
+        run: |
+          docker pull hadolint/hadolint
+      - name: Display hadolint
+        run: |
+          docker run --rm -v "$(pwd)":/work -w /work \
+          --security-opt=no-new-privileges --cap-drop all --network none \
+          hadolint/hadolint hadolint --version
+      - name: Run hadolint
+        run: |
+          set -x
+          docker run --rm -v "$(pwd)":/work -w /work \
+          --security-opt=no-new-privileges --cap-drop all --network none \
+          hadolint/hadolint hadolint ./**/Dockerfile
+
+  dockerfilelint:
+    name: Lint by dockerfilelint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Pull dockerfilelint
+        run: |
+          docker pull replicated/dockerfilelint
+      - name: Display dockerfilelint
+        run: |
+          docker run --rm -v "$(pwd)":/work -w /work \
+          --security-opt=no-new-privileges --cap-drop all --network none \
+          replicated/dockerfilelint --version
+      - name: Run dockerfilelint
+        run: |
+          set -x
+          docker run --rm -v "$(pwd)":/work -w /work \
+          --security-opt=no-new-privileges --cap-drop all --network none \
+          replicated/dockerfilelint ./**/Dockerfile
