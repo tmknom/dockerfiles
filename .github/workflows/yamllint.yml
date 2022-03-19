@@ -23,11 +23,6 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  lint:
-    uses: ./.github/workflows/reusable-lint-docker.yml
-    with:
-      dockerfile: yamllint/Dockerfile
-
   constants:
     runs-on: ubuntu-latest
     timeout-minutes: 1
@@ -46,7 +41,7 @@ jobs:
   push:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: [lint, constants]
+    needs: [constants]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
