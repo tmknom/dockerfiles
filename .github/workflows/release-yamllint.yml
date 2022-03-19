@@ -1,4 +1,4 @@
-name: yamllint
+name: Release yamllint
 on:
   workflow_dispatch:
   pull_request:

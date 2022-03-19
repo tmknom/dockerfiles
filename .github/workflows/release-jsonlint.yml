@@ -1,4 +1,4 @@
-name: jsonlint
+name: Release jsonlint
 on:
   workflow_dispatch:
   pull_request:

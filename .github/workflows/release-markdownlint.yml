@@ -1,4 +1,4 @@
-name: markdownlint
+name: Release markdownlint
 on:
   workflow_dispatch:
   pull_request:

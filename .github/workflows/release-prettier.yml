@@ -1,4 +1,4 @@
-name: prettier
+name: Release prettier
 on:
   workflow_dispatch:
   pull_request:
