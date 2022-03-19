@@ -1,0 +1,50 @@
+name: jsonlint
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "jsonlint/*"
+      - ".github/workflows/jsonlint.yml"
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+permissions:
+  packages: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  IMAGE_NAME: jsonlint
+  REGISTRY: ghcr.io
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Describe version
+        id: describe
+        run: |
+          semver="$(jq -r ".dependencies.${IMAGE_NAME}" ./"${IMAGE_NAME}"/package.json)"
+          echo "::set-output name=semver::${semver}"
+
+      - name: Push Docker
+        uses: ./.github/actions/docker_push/
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
+          metadata-tags: |
+            type=raw,value=latest
+            type=raw,value=${{ steps.describe.outputs.semver }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          context: ${{ env.IMAGE_NAME }}/
+          push: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true }}
