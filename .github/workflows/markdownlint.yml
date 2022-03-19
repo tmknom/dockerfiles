@@ -40,7 +40,7 @@ jobs:
       - name: Describe version
         id: describe
         run: |
-          semver="$(jq -r ".dependencies.${IMAGE_NAME}" ./"${IMAGE_NAME}"/package.json)"
+          semver="$(jq -r ".dependencies.\"${IMAGE_NAME}-cli\"" ./"${IMAGE_NAME}"/package.json)"
           echo "::set-output name=semver::${semver}"
 
   push:
