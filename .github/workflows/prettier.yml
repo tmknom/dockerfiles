@@ -1,12 +1,10 @@
 name: prettier
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - ".github/workflows/prettier.yml"
   pull_request:
     paths:
       - "prettier/*"
+      - ".github/workflows/prettier.yml"
     types:
       - opened
       - closed
@@ -91,6 +89,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ${{ env.IMAGE_NAME }}/
-          push: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged }}
+          push: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true }}
           tags: ${{ needs.metadata.outputs.tags }}
           labels: ${{ needs.metadata.outputs.labels }}
