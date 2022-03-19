@@ -60,6 +60,7 @@ DOCKERFILELINT ?= replicated/dockerfilelint:latest
 PRETTIER ?= $(REGISTRY)/prettier:latest
 MARKDOWNLINT ?= markdownlint:latest
 YAMLLINT ?= yamllint:latest
+ACTIONLINT ?= rhysd/actionlint:latest
 SHELLCHECK ?= koalaman/shellcheck:stable
 SHFMT ?= mvdan/shfmt:latest
 JSONLINT ?= jsonlint:latest
@@ -68,7 +69,7 @@ JSONLINT ?= jsonlint:latest
 # Lint
 #
 .PHONY: lint
-lint: lint-dockerfile lint-markdown lint-yaml lint-shell lint-json ## lint all
+lint: lint-dockerfile lint-markdown lint-yaml lint-action lint-shell lint-json ## lint all
 
 .PHONY: lint-dockerfile
 lint-dockerfile: ## lint dockerfile by hadolint and dockerfilelint
@@ -84,6 +85,10 @@ lint-markdown: ## lint markdown by markdownlint and prettier
 lint-yaml: ## lint yaml by yamllint and prettier
 	$(SECURE_DOCKER_RUN) $(YAMLLINT) --strict --config-file .yamllint.yml .
 	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=yaml **/*.y*ml
+
+.PHONY: lint-action
+lint-action: ## lint action by actionlint
+	$(SECURE_DOCKER_RUN) $(ACTIONLINT) -color -ignore '"permissions" section should not be empty.'
 
 .PHONY: lint-shell
 lint-shell: ## lint shell by shellcheck and shfmt
