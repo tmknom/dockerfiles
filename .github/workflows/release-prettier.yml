@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - "prettier/*"
-      - ".github/workflows/prettier.yml"
+      - ".github/workflows/release-prettier.yml"
     types:
       - opened
       - reopened

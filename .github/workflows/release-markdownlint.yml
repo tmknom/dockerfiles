@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - "markdownlint/*"
-      - ".github/workflows/markdownlint.yml"
+      - ".github/workflows/release-markdownlint.yml"
     types:
       - opened
       - reopened

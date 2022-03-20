@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - "jsonlint/*"
-      - ".github/workflows/jsonlint.yml"
+      - ".github/workflows/release-jsonlint.yml"
     types:
       - opened
       - reopened
