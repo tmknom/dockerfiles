@@ -1,10 +1,10 @@
-name: markdownlint
+name: Release yamllint
 on:
   workflow_dispatch:
   pull_request:
     paths:
-      - "markdownlint/*"
-      - ".github/workflows/markdownlint.yml"
+      - "yamllint/*"
+      - ".github/workflows/release-yamllint.yml"
     types:
       - opened
       - reopened
@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  IMAGE_NAME: markdownlint
+  IMAGE_NAME: yamllint
   REGISTRY: ghcr.io
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
       - name: Describe version
         id: describe
         run: |
-          semver="$(jq -r ".dependencies.\"${IMAGE_NAME}-cli\"" ./"${IMAGE_NAME}"/package.json)"
+          semver="$(cut -d '=' -f 3 "${IMAGE_NAME}"/requirements.txt)"
           echo "::set-output name=semver::${semver}"
 
       - name: Push Docker

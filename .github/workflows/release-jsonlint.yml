@@ -1,10 +1,10 @@
-name: yamllint
+name: Release jsonlint
 on:
   workflow_dispatch:
   pull_request:
     paths:
-      - "yamllint/*"
-      - ".github/workflows/yamllint.yml"
+      - "jsonlint/*"
+      - ".github/workflows/release-jsonlint.yml"
     types:
       - opened
       - reopened
@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  IMAGE_NAME: yamllint
+  IMAGE_NAME: jsonlint
   REGISTRY: ghcr.io
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
       - name: Describe version
         id: describe
         run: |
-          semver="$(cut -d '=' -f 3 "${IMAGE_NAME}"/requirements.txt)"
+          semver="$(jq -r ".dependencies.${IMAGE_NAME}" ./"${IMAGE_NAME}"/package.json)"
           echo "::set-output name=semver::${semver}"
 
       - name: Push Docker

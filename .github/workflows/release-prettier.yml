@@ -1,10 +1,10 @@
-name: prettier
+name: Release prettier
 on:
   workflow_dispatch:
   pull_request:
     paths:
       - "prettier/*"
-      - ".github/workflows/prettier.yml"
+      - ".github/workflows/release-prettier.yml"
     types:
       - opened
       - reopened
