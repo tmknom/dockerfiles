@@ -33,17 +33,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Pull shfmt
-        run: |
-          docker pull mvdan/shfmt
-      - name: Display shfmt
-        run: |
-          docker run --rm -v "$(pwd)":/work -w /work \
-          --security-opt=no-new-privileges --cap-drop all --network none \
-          mvdan/shfmt --version
-      - name: Run shfmt
-        run: |
-          set -x
-          docker run --rm -v "$(pwd)":/work -w /work \
-          --security-opt=no-new-privileges --cap-drop all --network none \
-          mvdan/shfmt -i 2 -ci -bn -d ./**/*.sh
+      - name: Secure docker run
+        uses: ./.github/actions/secure_docker_run/
+        with:
+          image: "mvdan/shfmt"
+          args: "-i 2 -ci -bn -d ."
+          show-version: "true"
