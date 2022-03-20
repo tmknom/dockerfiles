@@ -1,0 +1,60 @@
+name: Secure Docker Run
+description: Docker run with prevent escalation, disable all capability, and disable network.
+
+inputs:
+  image:
+    required: true
+    description: "The Docker image."
+  args:
+    default: ""
+    required: false
+    description: "The arguments as docker run command."
+  show-version:
+    default: "false"
+    required: false
+    description: "The flag to enable/disable to show running tool version. Specify true for print version."
+  show-version-args:
+    default: "--version"
+    required: false
+    description: "The arguments as showing version."
+
+runs:
+  using: composite
+
+  steps:
+    - name: Pull
+      shell: bash
+      env:
+        IMAGE: ${{ inputs.image }}
+      run: |
+        docker pull "${IMAGE}"
+
+    - name: Show version
+      shell: bash
+      if: ${{ inputs.show-version == 'true' }}
+      env:
+        IMAGE: ${{ inputs.image }}
+        ARGS: ${{ inputs.show-version-args }}
+      run: |
+        set -x
+        IFS=$' ' read -ra arr <<< "$(printenv ARGS)"
+        docker run --rm -v "$(pwd)":/work -w /work \
+        --security-opt=no-new-privileges --cap-drop all --network none \
+        "${IMAGE}" "${arr[@]}"
+
+    - name: Run
+      shell: bash
+      env:
+        IMAGE: ${{ inputs.image }}
+        ARGS: ${{ inputs.args }}
+      run: |
+        set -x
+        IFS=$' ' read -ra arr <<< "$(printenv ARGS)"
+        docker run --rm -v "$(pwd)":/work -w /work \
+        --security-opt=no-new-privileges --cap-drop all --network none \
+        "${IMAGE}" "${arr[@]}"
+
+# https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#branding
+branding:
+  icon: "package"
+  color: "gray-dark"
