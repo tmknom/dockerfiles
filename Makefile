@@ -50,6 +50,7 @@ DOCKER_RUN_SECURE_OPTIONS += --cap-drop all
 DOCKER_RUN_SECURE_OPTIONS += --network none
 DOCKER_RUN ?= $(DOCKER) run $(DOCKER_RUN_OPTIONS)
 SECURE_DOCKER_RUN ?= $(DOCKER_RUN) $(DOCKER_RUN_SECURE_OPTIONS)
+DOCKER_PULL ?= $(DOCKER) pull
 
 #
 # Variables for the image name
@@ -64,6 +65,22 @@ ACTIONLINT ?= rhysd/actionlint:latest
 SHELLCHECK ?= koalaman/shellcheck:stable
 SHFMT ?= mvdan/shfmt:latest
 JSONLINT ?= $(REGISTRY)/jsonlint:latest
+
+#
+# Install dependencies
+#
+.PHONY: install
+install: ## install docker images
+	$(DOCKER_PULL) $(HADOLINT)
+	$(DOCKER_PULL) $(DOCKERFILELINT)
+	$(DOCKER_PULL) $(PRETTIER)
+	$(DOCKER_PULL) $(MARKDOWNLINT)
+	$(DOCKER_PULL) $(YAMLLINT)
+	$(DOCKER_PULL) $(ACTIONLINT)
+	$(DOCKER_PULL) $(SHELLCHECK)
+	$(DOCKER_PULL) $(SHFMT)
+	$(DOCKER_PULL) $(JSONLINT)
+	$(DOCKER_PULL) $(DOCKERFILELINT)
 
 #
 # Lint
