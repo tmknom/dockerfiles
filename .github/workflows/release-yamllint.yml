@@ -1,6 +1,15 @@
 name: Release yamllint
 on:
   workflow_dispatch:
+    inputs:
+      push:
+        type: choice
+        required: true
+        description: "The flag to docker push."
+        default: "false"
+        options:
+          - "true"
+          - "false"
   pull_request:
     paths:
       - "yamllint/*"
@@ -49,4 +58,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           context: ${{ env.IMAGE_NAME }}/
-          push: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true }}
+          push: >-
+            ${{
+              (github.event_name == 'workflow_dispatch' && github.event.inputs.push == 'true')
+              || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+            }}
