@@ -49,19 +49,12 @@ jobs:
       - name: Push Docker
         uses: ./.github/actions/docker_push/
         with:
-          image-name: ${{ env.IMAGE_NAME }}
-          image-description: "Dockernized markdownlint, it's a style checker and lint tool for Markdown files."
-          images: |
-            ${{ github.actor }}/${{ env.IMAGE_NAME }}
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
-          metadata-tags: |
-            type=raw,value=latest
-            type=raw,value=${{ steps.describe.outputs.semver }}
-          registry: ${{ env.REGISTRY }}
+          name: ${{ env.IMAGE_NAME }}
+          description: "Dockernized markdownlint, it's a style checker and lint tool for Markdown files."
+          version: ${{ steps.describe.outputs.semver }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
           dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
-          context: ${{ env.IMAGE_NAME }}/
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           push: >-
             ${{
               (github.event_name == 'workflow_dispatch' && github.event.inputs.push == 'true')
