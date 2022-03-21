@@ -29,6 +29,7 @@ concurrency:
 
 env:
   IMAGE_NAME: prettier
+  DESCRIPTION: "Dockernized prettier, it's an opinionated code formatter."
 
 jobs:
   push:
@@ -49,7 +50,7 @@ jobs:
         uses: ./.github/actions/docker_push/
         with:
           name: ${{ env.IMAGE_NAME }}
-          description: "Dockernized prettier, it's an opinionated code formatter."
+          description: ${{ env.DESCRIPTION }}
           version: ${{ steps.describe.outputs.version }}
           username: ${{ github.actor }}
           dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
