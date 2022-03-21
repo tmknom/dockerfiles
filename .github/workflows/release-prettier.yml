@@ -29,7 +29,6 @@ concurrency:
 
 env:
   IMAGE_NAME: prettier
-  REGISTRY: ghcr.io
 
 jobs:
   push:
@@ -43,15 +42,15 @@ jobs:
       - name: Describe version
         id: describe
         run: |
-          semver="$(jq -r ".dependencies.${IMAGE_NAME}" ./"${IMAGE_NAME}"/package.json)"
-          echo "::set-output name=semver::${semver}"
+          version="$(jq -r ".dependencies.${IMAGE_NAME}" ./"${IMAGE_NAME}"/package.json)"
+          echo "::set-output name=version::${version}"
 
       - name: Push Docker
         uses: ./.github/actions/docker_push/
         with:
           name: ${{ env.IMAGE_NAME }}
           description: "Dockernized prettier, it's an opinionated code formatter."
-          version: ${{ steps.describe.outputs.semver }}
+          version: ${{ steps.describe.outputs.version }}
           username: ${{ github.actor }}
           dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
