@@ -112,7 +112,7 @@ lint-action: ## lint action by actionlint
 .PHONY: lint-shell
 lint-shell: ## lint shell by shellcheck and shfmt
 	$(SECURE_DOCKER_RUN) $(SHELLCHECK) **/*.sh
-	$(SECURE_DOCKER_RUN) $(SHFMT) -i 2 -ci -bn -d **/*.sh
+	$(SECURE_DOCKER_RUN) $(SHFMT) -i 2 -ci -bn -d .
 
 .PHONY: lint-json
 lint-json: ## lint json by jsonlint and prettier
@@ -135,7 +135,7 @@ format-yaml: ## format yaml by prettier
 
 .PHONY: format-shell
 format-shell: ## format shell by shfmt
-	$(SECURE_DOCKER_RUN) $(SHFMT) -i 2 -ci -bn -w **/*.sh
+	$(SECURE_DOCKER_RUN) $(SHFMT) -i 2 -ci -bn -w .
 
 .PHONY: format-json
 format-json: ## format json by prettier
