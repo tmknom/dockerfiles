@@ -35,6 +35,9 @@ runs:
   using: composite
 
   steps:
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+
     - name: Extract metadata (tags, labels) for Docker
       id: meta
       uses: docker/metadata-action@v3
@@ -64,6 +67,7 @@ runs:
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
+        platforms: linux/amd64,linux/arm64
 
 # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#branding
 branding:
