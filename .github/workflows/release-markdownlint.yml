@@ -39,6 +39,8 @@ jobs:
       - name: Push Docker
         uses: ./.github/actions/docker_push/
         with:
+          image-name: ${{ env.IMAGE_NAME }}
+          image-description: "Dockernized markdownlint, it's a style checker and lint tool for Markdown files."
           images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
           metadata-tags: |
             type=raw,value=latest

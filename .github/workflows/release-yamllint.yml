@@ -39,6 +39,8 @@ jobs:
       - name: Push Docker
         uses: ./.github/actions/docker_push/
         with:
+          image-name: ${{ env.IMAGE_NAME }}
+          image-description: "Dockernized yamllint, it's a linter for YAML files."
           images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
           metadata-tags: |
             type=raw,value=latest

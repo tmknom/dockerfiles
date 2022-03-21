@@ -39,6 +39,8 @@ jobs:
       - name: Push Docker
         uses: ./.github/actions/docker_push/
         with:
+          image-name: ${{ env.IMAGE_NAME }}
+          image-description: "Dockernized prettier, it's an opinionated code formatter."
           images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}
           metadata-tags: |
             type=raw,value=latest
