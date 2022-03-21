@@ -29,7 +29,6 @@ concurrency:
 
 env:
   IMAGE_NAME: jsonlint
-  REGISTRY: ghcr.io
 
 jobs:
   push:

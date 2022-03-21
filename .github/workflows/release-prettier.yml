@@ -29,7 +29,6 @@ concurrency:
 
 env:
   IMAGE_NAME: prettier
-  REGISTRY: ghcr.io
 
 jobs:
   push:
