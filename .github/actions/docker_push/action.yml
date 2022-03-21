@@ -2,6 +2,12 @@ name: Push Docker
 description: Extract metadata, log in, build, and push Docker image.
 
 inputs:
+  image-name:
+    required: true
+    description: "The name of building docker image."
+  image-description:
+    required: true
+    description: "The description of building docker image."
   images:
     required: true
     description: "List of Docker images to use as base name for tags."
@@ -35,6 +41,9 @@ runs:
       with:
         images: ${{ inputs.images }}
         tags: ${{ inputs.metadata-tags }}
+        labels: |
+          org.opencontainers.image.title=${{ inputs.image-name }}
+          org.opencontainers.image.description=${{ inputs.image-description }}
 
     - name: Log in to the Container registry
       uses: docker/login-action@v1
