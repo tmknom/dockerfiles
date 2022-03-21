@@ -70,12 +70,12 @@ runs:
       run: |
         declare pattern=''
         case "${TYPE}" in
-          "yaml" ) pattern='.y*ml$' ;;
-          "markdown" ) pattern='.md$' ;;
-          "shell" ) pattern='.sh$' ;;
-          "docker" ) pattern='Dockerfile$' ;;
-          "action" ) pattern='^.github/workflows/.*.y*ml$' ;;
-          * ) pattern='' ;;
+          "yaml") pattern='.y*ml$' ;;
+          "markdown") pattern='.md$' ;;
+          "shell") pattern='.sh$' ;;
+          "docker") pattern='Dockerfile$' ;;
+          "action") pattern='^.github/workflows/.*.y*ml$' ;;
+          *) pattern='' ;;
         esac
         echo "::set-output name=pattern::${pattern}"
 
