@@ -5,19 +5,19 @@ inputs:
   pattern:
     default: ""
     required: false
-    description: "TODO: review-dog"
+    description: "A pattern used filtering files. Same as `-E pattern` of `grep` command."
   type:
     default: ""
     required: false
-    description: "TODO: review-dog"
+    description: "Predefined file types: [yaml|markdown|shell|docker|action]"
   base-branch:
     default: "main"
     required: false
-    description: "TODO: actions/checkout"
+    description: "Branch to be compared with the currently checkout code."
   fetch-depth:
     default: "100"
     required: false
-    description: "TODO: actions/checkout"
+    description: "Number of commits to fetch. 0 indicates all history for all branches and tags."
 
 outputs:
   files:
