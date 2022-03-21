@@ -42,15 +42,15 @@ jobs:
       - name: Describe version
         id: describe
         run: |
-          semver="$(jq -r ".dependencies.\"${IMAGE_NAME}-cli\"" ./"${IMAGE_NAME}"/package.json)"
-          echo "::set-output name=semver::${semver}"
+          version="$(jq -r ".dependencies.\"${IMAGE_NAME}-cli\"" ./"${IMAGE_NAME}"/package.json)"
+          echo "::set-output name=version::${version}"
 
       - name: Push Docker
         uses: ./.github/actions/docker_push/
         with:
           name: ${{ env.IMAGE_NAME }}
           description: "Dockernized markdownlint, it's a style checker and lint tool for Markdown files."
-          version: ${{ steps.describe.outputs.semver }}
+          version: ${{ steps.describe.outputs.version }}
           username: ${{ github.actor }}
           dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
