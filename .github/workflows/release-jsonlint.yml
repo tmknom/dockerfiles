@@ -29,6 +29,7 @@ concurrency:
 
 env:
   IMAGE_NAME: jsonlint
+  DESCRIPTION: "Dockernized jsonlint, it's a JSON parser and validator."
 
 jobs:
   push:
@@ -49,7 +50,7 @@ jobs:
         uses: ./.github/actions/docker_push/
         with:
           name: ${{ env.IMAGE_NAME }}
-          description: "Dockernized jsonlint, it's a JSON parser and validator."
+          description: ${{ env.DESCRIPTION }}
           version: ${{ steps.describe.outputs.version }}
           username: ${{ github.actor }}
           dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}

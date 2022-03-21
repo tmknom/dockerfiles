@@ -29,6 +29,7 @@ concurrency:
 
 env:
   IMAGE_NAME: yamllint
+  DESCRIPTION: "Dockernized yamllint, it's a linter for YAML files."
 
 jobs:
   push:
@@ -49,7 +50,7 @@ jobs:
         uses: ./.github/actions/docker_push/
         with:
           name: ${{ env.IMAGE_NAME }}
-          description: "Dockernized yamllint, it's a linter for YAML files."
+          description: ${{ env.DESCRIPTION }}
           version: ${{ steps.describe.outputs.version }}
           username: ${{ github.actor }}
           dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
