@@ -42,8 +42,7 @@ runs:
           ${{ inputs.username }}/${{ inputs.name }}
           ghcr.io/${{ github.repository }}/${{ inputs.name }}
         tags: |
-          type=raw,value=latest
-          type=raw,value=${{ inputs.version }}
+          type=semver,pattern={{version}},value=v${{ inputs.version }}
         labels: |
           org.opencontainers.image.title=${{ inputs.name }}
           org.opencontainers.image.description=${{ inputs.description }}
