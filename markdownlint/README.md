@@ -43,7 +43,7 @@ docker run --rm -v $(pwd):/work tmknom/markdownlint README.md
 ### Lint all Markdown files in a directory
 
 ```shell
-docker run --rm -v $(pwd):/work tmknom/markdownlint --dot .
+docker run --rm -v $(pwd):/work tmknom/markdownlint -- .
 ```
 
 ### Help
