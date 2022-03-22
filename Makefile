@@ -57,6 +57,7 @@ DOCKER_RUN_SECURE_OPTIONS += --network none
 DOCKER_RUN ?= $(DOCKER) run $(DOCKER_RUN_OPTIONS)
 SECURE_DOCKER_RUN ?= $(DOCKER_RUN) $(DOCKER_RUN_SECURE_OPTIONS)
 DOCKER_PULL ?= $(DOCKER) pull
+DOCKER_RMI ?= $(DOCKER) rmi
 
 #
 # Variables for the image name
@@ -206,6 +207,16 @@ create-pr:
 	version="v$$(cat VERSION)" && \
 	$(GIT) push origin $$($(GIT) rev-parse --abbrev-ref HEAD) && \
 	$(GH) pr create --title "Bump up to $${version}" --body "" --web
+
+#
+# Clean
+#
+.PHONY: clean
+clean: ## clean all
+	$(DOCKER_RMI) tmknom/prettier ghcr.io/tmknom/dockerfiles/prettier
+	$(DOCKER_RMI) tmknom/markdownlint ghcr.io/tmknom/dockerfiles/markdownlint
+	$(DOCKER_RMI) tmknom/yamllint ghcr.io/tmknom/dockerfiles/yamllint
+	$(DOCKER_RMI) tmknom/jsonlint ghcr.io/tmknom/dockerfiles/jsonlint
 
 #
 # Help
