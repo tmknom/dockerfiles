@@ -74,6 +74,12 @@ SHFMT ?= mvdan/shfmt:latest
 JSONLINT ?= $(REGISTRY)/jsonlint:latest
 
 #
+# All
+#
+.PHONY: all
+all: install lint test clean ## all
+
+#
 # Install dependencies
 #
 .PHONY: install
