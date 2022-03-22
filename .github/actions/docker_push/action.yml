@@ -37,6 +37,8 @@ runs:
     - name: Extract metadata (tags, labels) for Docker
       id: meta
       uses: docker/metadata-action@v3
+      env:
+        BASE_URL: https://github.com/${{ github.repository }}
       with:
         images: |
           ${{ inputs.username }}/${{ inputs.name }}
@@ -46,6 +48,10 @@ runs:
         labels: |
           org.opencontainers.image.title=${{ inputs.name }}
           org.opencontainers.image.description=${{ inputs.description }}
+          org.opencontainers.image.url=${{ env.BASE_URL }}/tree/main/${{ inputs.name }}
+          org.opencontainers.image.source=${{ env.BASE_URL }}/blob/main/${{ inputs.name }}/Dockerfile
+          org.opencontainers.image.documentation=${{ env.BASE_URL }}/blob/main/${{ inputs.name }}/README.md
+          org.opencontainers.image.authors=[${{ inputs.username }}](https://github.com/tmknom/)
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v1
