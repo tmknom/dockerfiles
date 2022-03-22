@@ -26,7 +26,7 @@ SHELL := /bin/bash
 # Variables for the directory path
 #
 ROOT_DIR ?= $(shell $(GIT) rev-parse --show-toplevel)
-DOCKERFILE_DIRS ?= $(shell find . -name Dockerfile)
+DOCKERFILE_FILES ?= $(shell find . -name Dockerfile)
 MARKDOWN_FILES ?= $(shell find . -name '*.md')
 YAML_FILES ?= $(shell find . -name '*.y*ml')
 SHELL_FILES ?= $(shell find . -name '*.sh')
@@ -96,8 +96,8 @@ lint: lint-dockerfile lint-markdown lint-yaml lint-action lint-shell lint-json #
 
 .PHONY: lint-dockerfile
 lint-dockerfile: ## lint dockerfile by hadolint and dockerfilelint
-	$(SECURE_DOCKER_RUN) $(HADOLINT) hadolint $(DOCKERFILE_DIRS)
-	$(SECURE_DOCKER_RUN) $(DOCKERFILELINT) $(DOCKERFILE_DIRS)
+	$(SECURE_DOCKER_RUN) $(HADOLINT) hadolint $(DOCKERFILE_FILES)
+	$(SECURE_DOCKER_RUN) $(DOCKERFILELINT) $(DOCKERFILE_FILES)
 
 .PHONY: lint-markdown
 lint-markdown: ## lint markdown by markdownlint and prettier
