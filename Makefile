@@ -89,6 +89,40 @@ install: ## install docker images
 	$(DOCKER_PULL) $(DOCKERFILELINT)
 
 #
+# Test
+#
+.PHONY: test
+test: test-prettier test-markdownlint test-yamllint test-jsonlint ## test all
+
+.PHONY: test-prettier
+test-prettier:
+	$(DOCKER_PULL) tmknom/prettier
+	$(DOCKER_PULL) ghcr.io/tmknom/dockerfiles/prettier
+	$(SECURE_DOCKER_RUN) tmknom/prettier --version
+	$(SECURE_DOCKER_RUN) ghcr.io/tmknom/dockerfiles/prettier --version
+
+.PHONY: test-markdownlint
+test-markdownlint:
+	$(DOCKER_PULL) tmknom/markdownlint
+	$(DOCKER_PULL) ghcr.io/tmknom/dockerfiles/markdownlint
+	$(SECURE_DOCKER_RUN) tmknom/markdownlint --version
+	$(SECURE_DOCKER_RUN) ghcr.io/tmknom/dockerfiles/markdownlint --version
+
+.PHONY: test-yamllint
+test-yamllint:
+	$(DOCKER_PULL) tmknom/yamllint
+	$(DOCKER_PULL) ghcr.io/tmknom/dockerfiles/yamllint
+	$(SECURE_DOCKER_RUN) tmknom/yamllint --version
+	$(SECURE_DOCKER_RUN) ghcr.io/tmknom/dockerfiles/yamllint --version
+
+.PHONY: test-jsonlint
+test-jsonlint:
+	$(DOCKER_PULL) tmknom/jsonlint
+	$(DOCKER_PULL) ghcr.io/tmknom/dockerfiles/jsonlint
+	$(SECURE_DOCKER_RUN) tmknom/jsonlint --version || true
+	$(SECURE_DOCKER_RUN) ghcr.io/tmknom/dockerfiles/jsonlint --version || true
+
+#
 # Lint
 #
 .PHONY: lint
