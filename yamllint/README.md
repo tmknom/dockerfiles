@@ -42,7 +42,7 @@ docker run --rm -v $(pwd):/work tmknom/yamllint foo.yml
 ### Lint all YAML files in a directory
 
 ```shell
-docker run --rm -v $(pwd):/work tmknom/yamllint **/*.y*ml
+docker run --rm -v $(pwd):/work tmknom/yamllint -- .
 ```
 
 ### Help

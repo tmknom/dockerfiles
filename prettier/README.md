@@ -36,13 +36,13 @@ For more information, see [GitHub Packages](https://github.com/tmknom/dockerfile
 ### Format markdown
 
 ```shell
-docker run --rm -v $(pwd):/work tmknom/prettier --write --parser=markdown **/*.md
+docker run --rm -v $(pwd):/work tmknom/prettier --write --parser=markdown README.md
 ```
 
 ### Check format markdown
 
 ```shell
-docker run --rm -v $(pwd):/work tmknom/prettier --check --parser=markdown **/*.md
+docker run --rm -v $(pwd):/work tmknom/prettier --check --parser=markdown README.md
 ```
 
 ### Help
