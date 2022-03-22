@@ -115,8 +115,7 @@ lint-shell: ## lint shell by shellcheck and shfmt
 	$(SECURE_DOCKER_RUN) $(SHFMT) -i 2 -ci -bn -d .
 
 .PHONY: lint-json
-lint-json: ## lint json by jsonlint and prettier
-	$(SECURE_DOCKER_RUN) $(JSONLINT) --quiet --compact **/*.json
+lint-json: ## lint json by prettier
 	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=json **/*.json
 
 #
