@@ -23,7 +23,7 @@ SHELL := /bin/bash
 .DEFAULT_GOAL := help
 
 #
-# Variables for the directory path
+# Variables for the file and directory path
 #
 ROOT_DIR ?= $(shell $(GIT) rev-parse --show-toplevel)
 DOCKERFILE_FILES ?= $(shell find . -name Dockerfile)
