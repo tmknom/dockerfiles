@@ -9,6 +9,12 @@ on:
       - "**.sh"
       - "!.github/workflows/lint-shell.yml"
 
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   shellcheck:
     # use pre-installed shellcheck

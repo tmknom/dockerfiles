@@ -9,6 +9,12 @@ on:
       - "**/Dockerfile"
       - "!.github/workflows/lint-docker.yml"
 
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   hadolint:
     name: Lint by hadolint
