@@ -27,6 +27,10 @@ SHELL := /bin/bash
 #
 ROOT_DIR ?= $(shell $(GIT) rev-parse --show-toplevel)
 DOCKERFILE_DIRS ?= $(shell find . -name Dockerfile)
+MARKDOWN_FILES ?= $(shell find . -name '*.md')
+YAML_FILES ?= $(shell find . -name '*.y*ml')
+SHELL_FILES ?= $(shell find . -name '*.sh')
+JSON_FILES ?= $(shell find . -name '*.json')
 
 #
 # Variables to be used by Git and GitHub CLI
@@ -97,13 +101,13 @@ lint-dockerfile: ## lint dockerfile by hadolint and dockerfilelint
 
 .PHONY: lint-markdown
 lint-markdown: ## lint markdown by markdownlint and prettier
-	$(SECURE_DOCKER_RUN) $(MARKDOWNLINT) --dot --config .markdownlint.yml **/*.md
-	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=markdown **/*.md
+	$(SECURE_DOCKER_RUN) $(MARKDOWNLINT) --dot --config .markdownlint.yml $(MARKDOWN_FILES)
+	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=markdown $(MARKDOWN_FILES)
 
 .PHONY: lint-yaml
 lint-yaml: ## lint yaml by yamllint and prettier
 	$(SECURE_DOCKER_RUN) $(YAMLLINT) --strict --config-file .yamllint.yml .
-	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=yaml **/*.y*ml
+	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=yaml $(YAML_FILES)
 
 .PHONY: lint-action
 lint-action: ## lint action by actionlint
@@ -111,12 +115,12 @@ lint-action: ## lint action by actionlint
 
 .PHONY: lint-shell
 lint-shell: ## lint shell by shellcheck and shfmt
-	$(SECURE_DOCKER_RUN) $(SHELLCHECK) **/*.sh
+	$(SECURE_DOCKER_RUN) $(SHELLCHECK) $(SHELL_FILES)
 	$(SECURE_DOCKER_RUN) $(SHFMT) -i 2 -ci -bn -d .
 
 .PHONY: lint-json
 lint-json: ## lint json by prettier
-	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=json **/*.json
+	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=json $(JSON_FILES)
 
 #
 # Format code
@@ -126,11 +130,11 @@ format: format-markdown format-yaml format-shell format-json ## format all
 
 .PHONY: format-markdown
 format-markdown: ## format markdown by prettier
-	$(SECURE_DOCKER_RUN) $(PRETTIER) --write --parser=markdown **/*.md
+	$(SECURE_DOCKER_RUN) $(PRETTIER) --write --parser=markdown $(MARKDOWN_FILES)
 
 .PHONY: format-yaml
 format-yaml: ## format yaml by prettier
-	$(SECURE_DOCKER_RUN) $(PRETTIER) --write --parser=yaml **/*.y*ml
+	$(SECURE_DOCKER_RUN) $(PRETTIER) --write --parser=yaml $(YAML_FILES)
 
 .PHONY: format-shell
 format-shell: ## format shell by shfmt
@@ -138,7 +142,7 @@ format-shell: ## format shell by shfmt
 
 .PHONY: format-json
 format-json: ## format json by prettier
-	$(SECURE_DOCKER_RUN) $(PRETTIER) --write --parser=json **/*.json
+	$(SECURE_DOCKER_RUN) $(PRETTIER) --write --parser=json $(JSON_FILES)
 
 #
 # Release management
