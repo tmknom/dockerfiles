@@ -110,6 +110,11 @@ Then, publishes Docker images to Docker Hub and GitHub Packages. :rocket:
 Use Dependabot version updates.
 For more information, see [dependabot.yml](/.github/dependabot.yml).
 
+### Environment secrets
+
+- release
+  - `DOCKERHUB_TOKEN`: Personal access token used to log against Docker Hub.
+
 ### Versioning of the entire repository
 
 #### 1. Bump up to a new version
