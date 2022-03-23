@@ -37,6 +37,7 @@ JSON_FILES ?= $(shell find . -name '*.json')
 #
 GIT ?= $(shell \command -v git 2>/dev/null)
 GH ?= $(shell \command -v gh 2>/dev/null)
+GIT_EXCLUDE_FILES ?= ':!*.md' ':!Makefile' ':!.github/*'
 
 #
 # Variables to be used by Docker
@@ -72,6 +73,12 @@ ACTIONLINT ?= rhysd/actionlint:latest
 SHELLCHECK ?= koalaman/shellcheck:stable
 SHFMT ?= mvdan/shfmt:latest
 JSONLINT ?= $(REGISTRY)/jsonlint:latest
+
+#
+# Variables for the version
+#
+VERSION ?= $(shell \cat VERSION)
+SEMVER ?= "v$(VERSION)"
 
 #
 # All
@@ -223,6 +230,17 @@ clean: ## clean all
 	$(DOCKER_RMI) tmknom/markdownlint ghcr.io/tmknom/dockerfiles/markdownlint
 	$(DOCKER_RMI) tmknom/yamllint ghcr.io/tmknom/dockerfiles/yamllint
 	$(DOCKER_RMI) tmknom/jsonlint ghcr.io/tmknom/dockerfiles/jsonlint
+
+#
+# Git shortcut
+#
+.PHONY: git-diff
+git-diff: ## git diff only features
+	@$(GIT) diff $(SEMVER)... -- $(GIT_EXCLUDE_FILES)
+
+.PHONY: git-log
+git-log: ## git log only features
+	@$(GIT) log $(SEMVER)... -- $(GIT_EXCLUDE_FILES)
 
 #
 # Help
