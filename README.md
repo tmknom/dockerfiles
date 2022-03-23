@@ -146,6 +146,10 @@ Finally, we can use the new version! :tada:
 </details>
 <!-- markdownlint-enable MD033 -->
 
+## Changelog
+
+See [CHANGELOG.md](/CHANGELOG.md).
+
 ## License
 
 Apache 2 Licensed. See [LICENSE](/LICENSE) for full details.
