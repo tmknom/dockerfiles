@@ -16,33 +16,5 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  shellcheck:
-    # use pre-installed shellcheck
-    # https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-Readme.md
-    name: Lint by shellcheck
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Display shellcheck
-        run: |
-          shellcheck --version
-      - name: Run shellcheck
-        run: |
-          set -x
-          shellcheck ./**/*.sh
-
-  shfmt:
-    name: Lint by shfmt
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Secure docker run
-        uses: ./.github/actions/secure_docker_run/
-        with:
-          image: "mvdan/shfmt"
-          args: "-i 2 -ci -bn -d ."
-          show-version: "true"
+  lint-shell:
+    uses: tmknom/workflows/.github/workflows/lint-shell.yml@v1
