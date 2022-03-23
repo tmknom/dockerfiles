@@ -73,7 +73,7 @@ For more information, see [jsonlint/README.md](/jsonlint/README.md).
 
 ## Developer Guide
 
-<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable no-inline-html -->
 <details>
 <summary>Click to see details</summary>
 
@@ -144,7 +144,7 @@ make release
 Finally, we can use the new version! :tada:
 
 </details>
-<!-- markdownlint-enable MD033 -->
+<!-- markdownlint-enable no-inline-html -->
 
 ## Changelog
 
