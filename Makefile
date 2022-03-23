@@ -79,6 +79,7 @@ JSONLINT ?= $(REGISTRY)/jsonlint:latest
 #
 VERSION ?= $(shell \cat VERSION)
 SEMVER ?= "v$(VERSION)"
+MAJOR_VERSION ?= $(shell version=$(SEMVER) && echo "$${version%%.*}")
 
 #
 # All
@@ -196,30 +197,26 @@ format-json: ## format json by prettier
 # Release management
 #
 release: ## release
-	version="v$$(cat VERSION)" && \
-	major_version=$$(echo "$${version%%.*}") && \
-	$(GIT) tag --force --message "$${version}" "$${version}" && \
-	$(GIT) tag --force --message "$${version}" "$${major_version}" && \
-	$(GIT) push --force origin "$${version}" && \
-	$(GIT) push --force origin "$${major_version}"
+	$(GIT) tag --force --message "$(SEMVER)" "$(SEMVER)" && \
+	$(GIT) tag --force --message "$(SEMVER)" "$(MAJOR_VERSION)" && \
+	$(GIT) push --force origin "$(SEMVER)" && \
+	$(GIT) push --force origin "$(MAJOR_VERSION)"
 
 bump: input-version commit create-pr ## bump version
 
 input-version:
-	@echo "Current version: $$(cat VERSION)" && \
+	@echo "Current version: $(VERSION)" && \
 	read -rp "Input next version: " version && \
 	echo "$${version}" > VERSION
 
 commit:
-	version="v$$(cat VERSION)" && \
-	$(GIT) switch -c "bump-$${version}" && \
+	$(GIT) switch -c "bump-$(SEMVER)" && \
 	$(GIT) add VERSION && \
-	$(GIT) commit -m "Bump up to $${version}"
+	$(GIT) commit -m "Bump up to $(SEMVER)"
 
 create-pr:
-	version="v$$(cat VERSION)" && \
 	$(GIT) push origin $$($(GIT) rev-parse --abbrev-ref HEAD) && \
-	$(GH) pr create --title "Bump up to $${version}" --body "" --web
+	$(GH) pr create --title "Bump up to $(SEMVER)" --body "" --web
 
 #
 # Clean
