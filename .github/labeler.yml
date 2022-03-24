@@ -1,0 +1,23 @@
+prettier:
+  - "prettier/*"
+
+yamllint:
+  - "yamllint/*"
+
+markdownlint:
+  - "markdownlint/*"
+
+jsonlint:
+  - "jsonlint/*"
+
+github:
+  - ".github/**/*"
+
+docs:
+  - "**/*.md"
+
+chore:
+  - "Makefile"
+  - "VERSION"
+  - ".markdownlint.yml"
+  - ".yamllint.yml"
