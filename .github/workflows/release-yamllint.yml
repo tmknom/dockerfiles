@@ -52,7 +52,7 @@ jobs:
           name: ${{ env.IMAGE_NAME }}
           description: ${{ env.DESCRIPTION }}
           version: ${{ steps.describe.outputs.version }}
-          username: ${{ github.actor }}
+          username: ${{ github.repository_owner }}
           dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           push: >-
