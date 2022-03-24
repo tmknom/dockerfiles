@@ -1,4 +1,4 @@
-FROM node:17.7.2-alpine3.15
+FROM node:17.8.0-alpine3.15
 
 # Setup nonroot user
 RUN set -x && \
