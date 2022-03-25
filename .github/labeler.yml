@@ -19,5 +19,6 @@ docs:
 chore:
   - "Makefile"
   - "VERSION"
+  - ".gitignore"
   - ".markdownlint.yml"
   - ".yamllint.yml"
