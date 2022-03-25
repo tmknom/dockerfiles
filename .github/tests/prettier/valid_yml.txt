@@ -1,0 +1,3 @@
+---
+name: valid
+description: This is a valid basic yaml file.
