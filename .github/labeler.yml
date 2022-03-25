@@ -1,3 +1,9 @@
+docker:
+  - "*/Dockerfile"
+  - "*/entrypoint.sh"
+  - "*/package.json"
+  - "*/requirements.txt"
+
 prettier:
   - "prettier/*"
 
