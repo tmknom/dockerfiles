@@ -107,7 +107,13 @@ install: ## install docker images
 # Test
 #
 .PHONY: test
-test: clean test-prettier test-markdownlint test-yamllint test-jsonlint ## test all
+test: prepare-test test-prettier test-markdownlint test-yamllint test-jsonlint ## test all
+
+prepare-test: clean pull-base-image
+
+pull-base-image:
+	$(DOCKER_PULL) node:16-alpine3.15
+	$(DOCKER_PULL) python:3.10-alpine3.15
 
 .PHONY: test-prettier
 test-prettier:
