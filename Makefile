@@ -245,8 +245,8 @@ clean: ## clean all
 diff: ## git diff only features
 	@$(GIT) diff $(SEMVER)... -- $(GIT_EXCLUDE_FILES)
 
-.PHONY: git-log
-git-log: ## git log only features
+.PHONY: log
+log: ## git log only features
 	@$(GIT) log $(SEMVER)... -- $(GIT_EXCLUDE_FILES)
 
 #
