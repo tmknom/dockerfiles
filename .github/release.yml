@@ -12,6 +12,7 @@ changelog:
         - breaking-change
     - title: ENHANCEMENTS
       labels:
+        - docker
         - prettier
         - yamllint
         - markdownlint
