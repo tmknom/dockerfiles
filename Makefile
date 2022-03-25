@@ -115,6 +115,7 @@ test-prettier:
 	$(DOCKER_PULL) ghcr.io/tmknom/dockerfiles/prettier
 	$(SECURE_DOCKER_RUN) tmknom/prettier --version
 	$(SECURE_DOCKER_RUN) ghcr.io/tmknom/dockerfiles/prettier --version
+	.github/tests/prettier/test.sh
 
 .PHONY: test-markdownlint
 test-markdownlint:
@@ -122,6 +123,7 @@ test-markdownlint:
 	$(DOCKER_PULL) ghcr.io/tmknom/dockerfiles/markdownlint
 	$(SECURE_DOCKER_RUN) tmknom/markdownlint --version
 	$(SECURE_DOCKER_RUN) ghcr.io/tmknom/dockerfiles/markdownlint --version
+	.github/tests/markdownlint/test.sh
 
 .PHONY: test-yamllint
 test-yamllint:
@@ -129,6 +131,7 @@ test-yamllint:
 	$(DOCKER_PULL) ghcr.io/tmknom/dockerfiles/yamllint
 	$(SECURE_DOCKER_RUN) tmknom/yamllint --version
 	$(SECURE_DOCKER_RUN) ghcr.io/tmknom/dockerfiles/yamllint --version
+	.github/tests/yamllint/test.sh
 
 .PHONY: test-jsonlint
 test-jsonlint:
@@ -136,6 +139,7 @@ test-jsonlint:
 	$(DOCKER_PULL) ghcr.io/tmknom/dockerfiles/jsonlint
 	$(SECURE_DOCKER_RUN) tmknom/jsonlint --version || true
 	$(SECURE_DOCKER_RUN) ghcr.io/tmknom/dockerfiles/jsonlint --version || true
+	.github/tests/jsonlint/test.sh
 
 #
 # Lint
