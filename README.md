@@ -119,6 +119,8 @@ Then pull image from Docker Hub and GitHub Packages, and run test scripts.
 
 ### CI
 
+When create a pull request, the following workflows are executed automatically at GitHub Actions.
+
 - [Lint Docker](/.github/workflows/lint-docker.yml)
 - [Lint YAML](/.github/workflows/lint-yaml.yml)
 - [Lint Markdown](/.github/workflows/lint-markdown.yml)
