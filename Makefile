@@ -241,8 +241,8 @@ clean: ## clean all
 #
 # Git shortcut
 #
-.PHONY: git-diff
-git-diff: ## git diff only features
+.PHONY: diff
+diff: ## git diff only features
 	@$(GIT) diff $(SEMVER)... -- $(GIT_EXCLUDE_FILES)
 
 .PHONY: git-log
