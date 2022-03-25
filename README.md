@@ -83,6 +83,30 @@ For more information, see [jsonlint/README.md](/jsonlint/README.md).
 - [Docker](https://docs.docker.com/get-docker/)
 - [GitHub CLI](https://cli.github.com/)
 
+### Development
+
+#### Creating a new Dockerfile
+
+1. Create `<image_name>/` directory
+2. Define docker image: `Dockerfile`, `entrypoint.sh`, `.dockerignore`
+3. Manage package file: `package.json` or `requirements.txt`
+
+#### Testing 
+
+1. Create `.github/tests/<image_name>/` directory
+2. Write test script: `test.sh`
+3. Add test fixtures: `valid_<extension>.txt` and `invalid_<extension>.txt`
+
+#### Releasing
+
+1. Create release action: `.github/workflows/release-<image_name>.yml`
+2. Configure version updates for dependencies: `.github/dependabot.yml`
+
+#### Documentation for users
+
+1. Write details for the new docker image: `<image_name>/README.md`
+2. Update description and append usage: `README.md`
+
 ### Test
 
 ```shell
