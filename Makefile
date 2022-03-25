@@ -107,7 +107,7 @@ install: ## install docker images
 # Test
 #
 .PHONY: test
-test: test-prettier test-markdownlint test-yamllint test-jsonlint ## test all
+test: clean test-prettier test-markdownlint test-yamllint test-jsonlint ## test all
 
 .PHONY: test-prettier
 test-prettier:
