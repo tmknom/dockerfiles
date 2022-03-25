@@ -233,10 +233,10 @@ create-pr:
 #
 .PHONY: clean
 clean: ## clean all
-	$(DOCKER_RMI) tmknom/prettier ghcr.io/tmknom/dockerfiles/prettier
-	$(DOCKER_RMI) tmknom/markdownlint ghcr.io/tmknom/dockerfiles/markdownlint
-	$(DOCKER_RMI) tmknom/yamllint ghcr.io/tmknom/dockerfiles/yamllint
-	$(DOCKER_RMI) tmknom/jsonlint ghcr.io/tmknom/dockerfiles/jsonlint
+	$(DOCKER_RMI) tmknom/prettier ghcr.io/tmknom/dockerfiles/prettier || true
+	$(DOCKER_RMI) tmknom/markdownlint ghcr.io/tmknom/dockerfiles/markdownlint || true
+	$(DOCKER_RMI) tmknom/yamllint ghcr.io/tmknom/dockerfiles/yamllint || true
+	$(DOCKER_RMI) tmknom/jsonlint ghcr.io/tmknom/dockerfiles/jsonlint || true
 
 #
 # Git shortcut
