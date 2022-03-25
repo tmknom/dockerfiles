@@ -1,0 +1,21 @@
+changelog:
+  exclude:
+    labels:
+      - github
+      - docs
+      - chore
+    authors:
+      - dependabot[bot]
+  categories:
+    - title: BREAKING CHANGES
+      labels:
+        - breaking-change
+    - title: ENHANCEMENTS
+      labels:
+        - prettier
+        - yamllint
+        - markdownlint
+        - jsonlint
+    - title: NEW FEATURES
+      labels:
+        - "*"
