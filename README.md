@@ -91,13 +91,13 @@ For more information, see [jsonlint/README.md](/jsonlint/README.md).
 2. Define docker image: `Dockerfile`, `entrypoint.sh`, `.dockerignore`
 3. Manage package file: `package.json` or `requirements.txt`
 
-#### Testing 
+#### Testing for a new Docker Image
 
 1. Create `.github/tests/<image_name>/` directory
 2. Write test script: `test.sh`
 3. Add test fixtures: `valid_<extension>.txt` and `invalid_<extension>.txt`
 
-#### Releasing
+#### Management for releasing and updating dependencies
 
 1. Create release action: `.github/workflows/release-<image_name>.yml`
 2. Configure version updates for dependencies: `.github/dependabot.yml`
@@ -140,10 +140,15 @@ Then, publishes Docker images to Docker Hub and GitHub Packages. :rocket:
 Use Dependabot version updates.
 For more information, see [dependabot.yml](/.github/dependabot.yml).
 
-### Environment secrets
+### Secrets management
 
-- release
-  - `DOCKERHUB_TOKEN`: Personal access token used to log against Docker Hub.
+Stored environment secrets for the following environments in this repository.
+
+#### release
+
+Reference from releasing workflows such as `.github/workflows/release-prettier.yml`.
+
+- `DOCKERHUB_TOKEN`: Personal access token used to log against Docker Hub.
 
 ### Versioning of the entire repository
 
