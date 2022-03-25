@@ -109,9 +109,13 @@ For more information, see [jsonlint/README.md](/jsonlint/README.md).
 
 ### Test
 
+Run the following command:
+
 ```shell
 make test
 ```
+
+Then pull image from Docker Hub and GitHub Packages, and run test scripts.
 
 ### CI
 
