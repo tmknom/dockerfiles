@@ -1,5 +1,14 @@
 # Changelog
 
+<!-- markdownlint-disable no-duplicate-heading -->
+
+## [0.1.2](https://github.com/tmknom/dockerfiles/compare/v0.1.1...v0.1.2)
+
+### ENHANCEMENTS
+
+-Use lts version for node #101
+-Remove patch version from base image #107
+
 ## [0.1.1](https://github.com/tmknom/dockerfiles/compare/v0.1.0...v0.1.1)
 
 ### ENHANCEMENTS
