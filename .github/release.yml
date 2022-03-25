@@ -13,10 +13,6 @@ changelog:
     - title: ENHANCEMENTS
       labels:
         - docker
-        - prettier
-        - yamllint
-        - markdownlint
-        - jsonlint
     - title: NEW FEATURES
       labels:
         - "*"
