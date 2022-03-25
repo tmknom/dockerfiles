@@ -79,6 +79,14 @@ runs:
         cache-to: type=gha,mode=max
         platforms: linux/amd64,linux/arm64
 
+    - name: Test image
+      shell: bash
+      if: ${{ inputs.push != 'true' }}
+      env:
+        NAME: ${{ inputs.name }}
+      run: |
+        .github/tests/"${NAME}"/test.sh
+
 # https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#branding
 branding:
   icon: "package"

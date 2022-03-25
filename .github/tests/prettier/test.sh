@@ -13,7 +13,7 @@ CURRENT_DIR="$(
 source "${CURRENT_DIR}"/../xunit.sh
 
 run_test() {
-  docker run -it --rm -v "$(pwd):/work" -w /work \
+  docker run --rm -v "$(pwd):/work" -w /work \
     --user 1111:1111 --read-only --security-opt no-new-privileges --cap-drop all \
     ghcr.io/tmknom/dockerfiles/"${TOOL_NAME}":latest \
     --check --parser=yaml ".github/tests/${TOOL_NAME}/${test_case}_yml.txt" \
