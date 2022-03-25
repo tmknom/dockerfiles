@@ -1,4 +1,4 @@
-FROM python:3.10.3-alpine3.15
+FROM python:3.10.4-alpine3.15
 
 # Setup nonroot user
 RUN set -x && \
