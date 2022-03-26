@@ -48,19 +48,6 @@ docker run --rm tmknom/jsonlint --help
 - linux/amd64
 - linux/arm64
 
-## Release management
-
-1. Update [Dockerfile](/jsonlint/Dockerfile) or [package.json](/jsonlint/package.json)
-2. Commit, push, and create a pull request
-3. After merged, run [Release workflow](/.github/workflows/release-jsonlint.yml) automatically at GitHub Actions
-
-Then, publishes Docker images to Docker Hub and GitHub Packages. :rocket:
-
-## Dependency management
-
-Use Dependabot version updates.
-For more information, see [dependabot.yml](/.github/dependabot.yml).
-
 ## Source repository
 
 - [tmknom/dockerfiles](https://github.com/tmknom/dockerfiles/)
