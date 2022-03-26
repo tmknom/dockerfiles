@@ -73,7 +73,6 @@ YAMLLINT ?= $(REGISTRY)/yamllint:latest
 ACTIONLINT ?= rhysd/actionlint:latest
 SHELLCHECK ?= koalaman/shellcheck:stable
 SHFMT ?= mvdan/shfmt:latest
-JSONLINT ?= $(REGISTRY)/jsonlint:latest
 
 #
 # Variables for the version
@@ -101,8 +100,6 @@ install: ## install docker images
 	$(DOCKER_PULL) $(ACTIONLINT)
 	$(DOCKER_PULL) $(SHELLCHECK)
 	$(DOCKER_PULL) $(SHFMT)
-	$(DOCKER_PULL) $(JSONLINT)
-	$(DOCKER_PULL) $(DOCKERFILELINT)
 
 #
 # Test
