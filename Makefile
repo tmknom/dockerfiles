@@ -210,12 +210,14 @@ create-pr:
 #
 # Clean
 #
+CLEAN_TARGETS ?= $(patsubst %,clean-%,$(IMAGE_NAMES))
 .PHONY: clean
-clean: ## clean all
-	$(DOCKER_RMI) tmknom/prettier ghcr.io/tmknom/dockerfiles/prettier || true
-	$(DOCKER_RMI) tmknom/markdownlint ghcr.io/tmknom/dockerfiles/markdownlint || true
-	$(DOCKER_RMI) tmknom/yamllint ghcr.io/tmknom/dockerfiles/yamllint || true
-	$(DOCKER_RMI) tmknom/jsonlint ghcr.io/tmknom/dockerfiles/jsonlint || true
+clean: $(CLEAN_TARGETS) ## clean all
+
+.PHONY: $(CLEAN_TARGETS)
+$(CLEAN_TARGETS): IMAGE_NAME = $(patsubst clean-%,%,$@)
+$(CLEAN_TARGETS):
+	$(DOCKER_RMI) tmknom/$(IMAGE_NAME) ghcr.io/tmknom/dockerfiles/$(IMAGE_NAME) || true
 
 #
 # Git shortcut
