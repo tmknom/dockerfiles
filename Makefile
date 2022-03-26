@@ -63,6 +63,7 @@ DOCKER_RMI ?= $(DOCKER) rmi
 #
 # Variables for the image name
 #
+IMAGE_NAMES ?= $(shell ls -d */ | grep -v -e .git -e .github)
 REGISTRY ?= ghcr.io/tmknom/dockerfiles
 HADOLINT ?= hadolint/hadolint:latest
 DOCKERFILELINT ?= replicated/dockerfilelint:latest
@@ -106,8 +107,9 @@ install: ## install docker images
 #
 # Test
 #
+TEST_TARGETS ?= $(patsubst %,test-%,$(IMAGE_NAMES))
 .PHONY: test
-test: prepare-test test-prettier test-markdownlint test-yamllint test-jsonlint ## test all
+test: prepare-test $(TEST_TARGETS) ## test all
 
 prepare-test: clean pull-base-image
 
@@ -115,37 +117,14 @@ pull-base-image:
 	$(DOCKER_PULL) node:16-alpine3.15
 	$(DOCKER_PULL) python:3.10-alpine3.15
 
-.PHONY: test-prettier
-test-prettier:
-	$(DOCKER_PULL) tmknom/prettier
-	$(DOCKER_PULL) ghcr.io/tmknom/dockerfiles/prettier
-	$(SECURE_DOCKER_RUN) tmknom/prettier --version
-	$(SECURE_DOCKER_RUN) ghcr.io/tmknom/dockerfiles/prettier --version
-	.github/tests/prettier/test.sh
-
-.PHONY: test-markdownlint
-test-markdownlint:
-	$(DOCKER_PULL) tmknom/markdownlint
-	$(DOCKER_PULL) ghcr.io/tmknom/dockerfiles/markdownlint
-	$(SECURE_DOCKER_RUN) tmknom/markdownlint --version
-	$(SECURE_DOCKER_RUN) ghcr.io/tmknom/dockerfiles/markdownlint --version
-	.github/tests/markdownlint/test.sh
-
-.PHONY: test-yamllint
-test-yamllint:
-	$(DOCKER_PULL) tmknom/yamllint
-	$(DOCKER_PULL) ghcr.io/tmknom/dockerfiles/yamllint
-	$(SECURE_DOCKER_RUN) tmknom/yamllint --version
-	$(SECURE_DOCKER_RUN) ghcr.io/tmknom/dockerfiles/yamllint --version
-	.github/tests/yamllint/test.sh
-
-.PHONY: test-jsonlint
-test-jsonlint:
-	$(DOCKER_PULL) tmknom/jsonlint
-	$(DOCKER_PULL) ghcr.io/tmknom/dockerfiles/jsonlint
-	$(SECURE_DOCKER_RUN) tmknom/jsonlint --version || true
-	$(SECURE_DOCKER_RUN) ghcr.io/tmknom/dockerfiles/jsonlint --version || true
-	.github/tests/jsonlint/test.sh
+.PHONY: $(TEST_TARGETS)
+$(TEST_TARGETS): IMAGE_NAME = $(patsubst test-%,%,$@)
+$(TEST_TARGETS):
+	$(DOCKER_PULL) tmknom/$(IMAGE_NAME)
+	$(DOCKER_PULL) ghcr.io/tmknom/dockerfiles/$(IMAGE_NAME)
+	$(SECURE_DOCKER_RUN) tmknom/$(IMAGE_NAME) --version || true
+	$(SECURE_DOCKER_RUN) ghcr.io/tmknom/dockerfiles/$(IMAGE_NAME) --version || true
+	.github/tests/$(IMAGE_NAME)/test.sh
 
 #
 # Lint
