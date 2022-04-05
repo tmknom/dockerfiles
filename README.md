@@ -13,6 +13,9 @@ Available dockerfiles are supported the following tools:
 - **markdownlint**: It's a style checker and lint tool for Markdown files, see the [documents](https://github.com/DavidAnson/markdownlint).
 - **jsonlint**: It's a JSON parser and validator, see the [documents](https://github.com/zaach/jsonlint).
 
+These are useful tools, but there is no official image.
+Therefore, this repository creates and distributes these lightweight images.
+
 ## Usage
 
 ### Pull
