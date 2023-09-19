@@ -36,13 +36,13 @@ For more information, see [GitHub Packages](https://github.com/tmknom/dockerfile
 ### Lint a YAML file
 
 ```shell
-docker run --rm -v $(pwd):/work tmknom/yamllint foo.yml
+docker run --rm -v "$(pwd):/work" tmknom/yamllint foo.yml
 ```
 
 ### Lint all YAML files in a directory
 
 ```shell
-docker run --rm -v $(pwd):/work tmknom/yamllint -- .
+docker run --rm -v "$(pwd):/work" tmknom/yamllint -- .
 ```
 
 ### Help

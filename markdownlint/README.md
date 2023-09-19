@@ -37,13 +37,13 @@ For more information, see [GitHub Packages](https://github.com/tmknom/dockerfile
 ### Lint a Markdown file
 
 ```shell
-docker run --rm -v $(pwd):/work tmknom/markdownlint README.md
+docker run --rm -v "$(pwd):/work" tmknom/markdownlint README.md
 ```
 
 ### Lint all Markdown files in a directory
 
 ```shell
-docker run --rm -v $(pwd):/work tmknom/markdownlint -- .
+docker run --rm -v "$(pwd):/work" tmknom/markdownlint -- .
 ```
 
 ### Help

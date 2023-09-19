@@ -34,7 +34,7 @@ For more information, see [GitHub Packages](https://github.com/tmknom/dockerfile
 ### Lint a JSON file
 
 ```shell
-docker run --rm -v $(pwd):/work tmknom/jsonlint --compact --quiet foo.json
+docker run --rm -v "$(pwd):/work" tmknom/jsonlint --compact --quiet foo.json
 ```
 
 ### Help

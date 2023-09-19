@@ -40,7 +40,7 @@ The following shows how to use it when pulled from Docker Hub.
 ### prettier
 
 ```shell
-docker run --rm -v $(pwd):/work tmknom/prettier --check --parser=markdown README.md
+docker run --rm -v "$(pwd):/work" tmknom/prettier --check --parser=markdown README.md
 ```
 
 For more information, see [prettier/README.md](/prettier/README.md).
@@ -48,7 +48,7 @@ For more information, see [prettier/README.md](/prettier/README.md).
 ### yamllint
 
 ```shell
-docker run --rm -v $(pwd):/work tmknom/yamllint -- .
+docker run --rm -v "$(pwd):/work" tmknom/yamllint -- .
 ```
 
 For more information, see [yamllint/README.md](/yamllint/README.md).
@@ -56,7 +56,7 @@ For more information, see [yamllint/README.md](/yamllint/README.md).
 ### markdownlint
 
 ```shell
-docker run --rm -v $(pwd):/work tmknom/markdownlint -- .
+docker run --rm -v "$(pwd):/work" tmknom/markdownlint -- .
 ```
 
 For more information, see [markdownlint/README.md](/markdownlint/README.md).
@@ -64,7 +64,7 @@ For more information, see [markdownlint/README.md](/markdownlint/README.md).
 ### jsonlint
 
 ```shell
-docker run --rm -v $(pwd):/work tmknom/jsonlint --compact --quiet foo.json
+docker run --rm -v "$(pwd):/work" tmknom/jsonlint --compact --quiet foo.json
 ```
 
 For more information, see [jsonlint/README.md](/jsonlint/README.md).
