@@ -9,7 +9,7 @@ on:
         options:
           - 'true'
           - 'false'
-        default: 'false'
+        default: 'true'
 
 concurrency: ${{ github.workflow }}
 
