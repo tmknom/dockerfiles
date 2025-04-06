@@ -17,5 +17,5 @@ RUN set -x && \
 # Configure runtime
 WORKDIR /work
 ENV PATH "/home/nonroot/.local/bin:${PATH}"
-ENV PYTHONPATH="/home/nonroot/.local/lib/python3.10/site-packages"
+ENV PYTHONPATH="/home/nonroot/.local/lib/python3.11/site-packages"
 ENTRYPOINT ["/home/nonroot/entrypoint.sh"]
