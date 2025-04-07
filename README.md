@@ -11,7 +11,6 @@ Available dockerfiles are supported the following tools:
 - **prettier**: It's an opinionated code formatter, see the [documents](https://prettier.io/docs/en/).
 - **yamllint**: It's a linter for YAML files, see the [documents](https://yamllint.readthedocs.io/en/stable/).
 - **markdownlint**: It's a style checker and lint tool for Markdown files, see the [documents](https://github.com/DavidAnson/markdownlint).
-- **jsonlint**: It's a JSON parser and validator, see the [documents](https://github.com/zaach/jsonlint).
 
 These are useful tools, but there is no official image.
 Therefore, this repository creates and distributes these lightweight images.
@@ -60,14 +59,6 @@ docker run --rm -v "$(pwd):/work" tmknom/markdownlint -- .
 ```
 
 For more information, see [markdownlint/README.md](/markdownlint/README.md).
-
-### jsonlint
-
-```shell
-docker run --rm -v "$(pwd):/work" tmknom/jsonlint --compact --quiet foo.json
-```
-
-For more information, see [jsonlint/README.md](/jsonlint/README.md).
 
 ## Supported platforms
 
