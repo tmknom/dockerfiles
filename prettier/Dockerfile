@@ -1,4 +1,4 @@
-FROM node:18-alpine3.15
+FROM node:22-alpine3.21
 
 # Setup nonroot user
 RUN set -x && \
@@ -17,5 +17,5 @@ RUN set -x && \
 
 # Configure runtime
 WORKDIR /work
-ENV PATH "/home/nonroot/node_modules/.bin:${PATH}"
+ENV PATH="/home/nonroot/node_modules/.bin:${PATH}"
 ENTRYPOINT ["/home/nonroot/entrypoint.sh"]
