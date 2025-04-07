@@ -37,7 +37,7 @@ jobs:
     uses: ./.github/workflows/reusable-release.yml
     with:
       name: prettier
-      description: Dockernized prettier, it's an opinionated code formatter..
+      description: Dockernized prettier, it's an opinionated code formatter.
       version: ${{ needs.extract.outputs.version }}
       push: ${{ inputs.push }}
     secrets:
