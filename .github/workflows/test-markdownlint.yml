@@ -1,0 +1,92 @@
+name: Test markdownlint
+on:
+  workflow_dispatch:
+  pull_request:
+    paths: ["markdownlint/*", ".github/workflows/test-markdownlint.yml"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: tmknom/checkout-action@v1
+
+      - name: Setup
+        run: |
+          set -x
+          docker build -t local/sut markdownlint/
+
+          cat <<EOF > test.md
+          # valid
+
+          This is a valid basic markdown file.
+          EOF
+
+      - name: Exercise
+        id: exercise
+        run: |
+          set -x
+          docker run --interactive --rm --read-only --user nonroot:nonroot \
+            --security-opt no-new-privileges --cap-drop all --network none \
+            --volume "${PWD}:${PWD}" --workdir "${PWD}" \
+            local/sut test.md
+        continue-on-error: true
+
+      - name: Verify
+        env:
+          OUTCOME: ${{ steps.exercise.outcome }}
+        run: |
+          set -x
+          test "${OUTCOME}" = "success"
+
+  test-error:
+    name: Test error
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: tmknom/checkout-action@v1
+
+      - name: Setup
+        run: |
+          set -x
+          docker build -t local/sut markdownlint/
+
+          cat <<EOF > test.md
+          # invalid
+
+          This sentence is too long, so markdownlint will report the "MD013/line-length" error because it flags lines exceeding 80 characters.
+          EOF
+
+      - name: Exercise
+        id: exercise
+        run: |
+          set -x
+          docker run --interactive --rm --read-only --user nonroot:nonroot \
+            --security-opt no-new-privileges --cap-drop all --network none \
+            --volume "${PWD}:${PWD}" --workdir "${PWD}" \
+            local/sut test.md
+        continue-on-error: true
+
+      - name: Verify
+        env:
+          OUTCOME: ${{ steps.exercise.outcome }}
+        run: |
+          set -x
+          test "${OUTCOME}" = "failure"
