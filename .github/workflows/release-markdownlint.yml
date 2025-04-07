@@ -5,58 +5,43 @@ on:
       push:
         type: choice
         required: true
-        description: "The flag to docker push."
-        default: "false"
+        description: The flag to docker push.
         options:
-          - "true"
-          - "false"
-  pull_request:
-    paths:
-      - "markdownlint/*"
-      - ".github/workflows/release-markdownlint.yml"
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - closed
+          - 'true'
+          - 'false'
+        default: 'true'
 
-permissions:
-  packages: write
+concurrency: ${{ github.workflow }}
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-env:
-  IMAGE_NAME: markdownlint
-  DESCRIPTION: "Dockernized markdownlint, it's a style checker and lint tool for Markdown files."
+permissions: {}
 
 jobs:
-  push:
+  extract:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    environment: release
+    outputs:
+      version: ${{ steps.extract.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: tmknom/checkout-action@v1
 
-      - name: Describe version
-        id: describe
+      - name: Extract version
+        id: extract
         run: |
-          version="$(jq -r ".dependencies.\"${IMAGE_NAME}-cli\"" ./"${IMAGE_NAME}"/package.json)"
-          echo "::set-output name=version::${version}"
+          set -x
+          version="$(jq -r ".dependencies.\"markdownlint-cli\"" markdownlint/package.json)"
+          echo "version=${version}" >> "${GITHUB_OUTPUT}"
 
-      - name: Push Docker
-        uses: ./.github/actions/docker_push/
-        with:
-          name: ${{ env.IMAGE_NAME }}
-          description: ${{ env.DESCRIPTION }}
-          version: ${{ steps.describe.outputs.version }}
-          username: ${{ github.repository_owner }}
-          dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          push: >-
-            ${{
-              (github.event_name == 'workflow_dispatch' && github.event.inputs.push == 'true')
-              || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
-            }}
+  release:
+    needs: [extract]
+    uses: ./.github/workflows/reusable-release.yml
+    with:
+      name: markdownlint
+      description: Dockernized markdownlint, it's a style checker and lint tool for Markdown files.
+      version: ${{ needs.extract.outputs.version }}
+      push: ${{ inputs.push }}
+    secrets:
+      dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+    permissions:
+      contents: read
+      packages: write
