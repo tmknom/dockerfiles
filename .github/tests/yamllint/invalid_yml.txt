@@ -1,3 +1,0 @@
-name: invalid
-description:  |
-  This is an invalid basic yaml file.
