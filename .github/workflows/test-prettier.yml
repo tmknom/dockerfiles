@@ -1,0 +1,93 @@
+name: Test prettier
+on:
+  workflow_dispatch:
+  pull_request:
+    paths: ["prettier/*", ".github/workflows/test-prettier.yml"]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: tmknom/checkout-action@v1
+
+      - name: Setup
+        run: |
+          set -x
+          docker build -t local/sut prettier/
+
+          cat <<EOF > test.yml
+          ---
+          name: valid
+          description: This is a valid basic yaml file.
+          EOF
+
+      - name: Exercise
+        id: exercise
+        run: |
+          set -x
+          docker run --interactive --rm --read-only --user nonroot:nonroot \
+            --security-opt no-new-privileges --cap-drop all --network none \
+            --volume "${PWD}:${PWD}" --workdir "${PWD}" \
+            local/sut --check --parser=yaml test.yml
+        continue-on-error: true
+
+      - name: Verify
+        env:
+          OUTCOME: ${{ steps.exercise.outcome }}
+        run: |
+          set -x
+          test "${OUTCOME}" = "success"
+
+  test-error:
+    name: Test error
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: tmknom/checkout-action@v1
+
+      - name: Setup
+        run: |
+          set -x
+          docker build -t local/sut prettier/
+
+          cat <<EOF > test.yml
+          ---
+          name: invalid
+          description:  |
+            This is an invalid basic yaml file.
+          EOF
+
+      - name: Exercise
+        id: exercise
+        run: |
+          set -x
+          docker run --interactive --rm --read-only --user nonroot:nonroot \
+            --security-opt no-new-privileges --cap-drop all --network none \
+            --volume "${PWD}:${PWD}" --workdir "${PWD}" \
+            local/sut --check --parser=yaml test.yml
+        continue-on-error: true
+
+      - name: Verify
+        env:
+          OUTCOME: ${{ steps.exercise.outcome }}
+        run: |
+          set -x
+          test "${OUTCOME}" = "failure"
