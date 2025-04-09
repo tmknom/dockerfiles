@@ -25,29 +25,5 @@ jobs:
       - name: Checkout
         uses: tmknom/checkout-action@v1
 
-      - name: Install
-        id: install
-        run: |
-          set -x
-          image="hadolint/hadolint"
-          echo "image=${image}" >> "${GITHUB_OUTPUT}"
-          docker pull "${image}"
-
-      - name: Show version
-        env:
-          IMAGE: ${{ steps.install.outputs.image }}
-        run: |
-          set -x
-          docker run --interactive --rm --read-only --user 1111:1111 \
-            --security-opt no-new-privileges --cap-drop all --network none \
-            "${IMAGE}" hadolint --version
-
-      - name: Run
-        env:
-          IMAGE: ${{ steps.install.outputs.image }}
-        run: |
-          set -x
-          docker run --interactive --rm --read-only --user 1111:1111 \
-            --security-opt no-new-privileges --cap-drop all --network none \
-            --volume "${PWD}:${PWD}" --workdir "${PWD}" \
-            "${IMAGE}" hadolint ./**/Dockerfile
+      - name: Secure hadolint
+        uses: tmknom/secure-hadolint-action@8182c2c04ed9731f52db74f1b3217a0279824203 # v0.1.0
