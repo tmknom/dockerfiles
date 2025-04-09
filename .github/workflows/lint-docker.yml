@@ -27,3 +27,28 @@ jobs:
 
       - name: Secure hadolint
         uses: tmknom/secure-hadolint-action@8182c2c04ed9731f52db74f1b3217a0279824203 # v0.1.0
+
+  dockle:
+    name: Lint by Dockle
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: tmknom/checkout-action@v1
+
+      - name: Run Dockle
+        run: |
+          set -x
+          docker build -t "yamllint:${GITHUB_SHA}" yamllint/
+          docker save "yamllint:${GITHUB_SHA}" -o "${RUNNER_TEMP}/image.tar"
+          chmod a+r "${RUNNER_TEMP}/image.tar"
+
+          docker run --interactive --rm --read-only --user 1111:1111 \
+            --security-opt no-new-privileges --cap-drop all --network none \
+            --volume "${RUNNER_TEMP}:${RUNNER_TEMP}:ro" \
+            goodwithtech/dockle:latest --input "${RUNNER_TEMP}/image.tar"
+
+          docker image rm "yamllint:${GITHUB_SHA}"
+          rm "${RUNNER_TEMP}/image.tar"
