@@ -38,17 +38,17 @@ jobs:
       - name: Checkout
         uses: tmknom/checkout-action@v1
 
-      - name: Run Dockle
-        run: |
-          set -x
-          docker build -t "yamllint:${GITHUB_SHA}" yamllint/
-          docker save "yamllint:${GITHUB_SHA}" -o "${RUNNER_TEMP}/image.tar"
-          chmod a+r "${RUNNER_TEMP}/image.tar"
+      - name: Secure Dockle for yamllint
+        uses: tmknom/secure-dockle-action@208c0b264e52ac552de5127a3a16617f4e544030 # v0.1.0
+        with:
+          dockerfile-path: yamllint/Dockerfile
 
-          docker run --interactive --rm --read-only --user 1111:1111 \
-            --security-opt no-new-privileges --cap-drop all --network none \
-            --volume "${RUNNER_TEMP}:${RUNNER_TEMP}:ro" \
-            goodwithtech/dockle:latest --input "${RUNNER_TEMP}/image.tar"
+      - name: Secure Dockle for prettier
+        uses: tmknom/secure-dockle-action@208c0b264e52ac552de5127a3a16617f4e544030 # v0.1.0
+        with:
+          dockerfile-path: prettier/Dockerfile
 
-          docker image rm "yamllint:${GITHUB_SHA}"
-          rm "${RUNNER_TEMP}/image.tar"
+      - name: Secure Dockle for markdownlint
+        uses: tmknom/secure-dockle-action@208c0b264e52ac552de5127a3a16617f4e544030 # v0.1.0
+        with:
+          dockerfile-path: markdownlint/Dockerfile
