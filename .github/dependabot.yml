@@ -10,7 +10,7 @@ updates:
     directory: /prettier
     ignore:
       - dependency-name: node
-        versions: [23, 25, 27, 29, 31]
+        versions: ["23", "25", "27", "29", "31"]
     schedule:
       interval: monthly
 
@@ -23,7 +23,7 @@ updates:
     directory: /markdownlint
     ignore:
       - dependency-name: node
-        versions: [23, 25, 27, 29, 31]
+        versions: ["23", "25", "27", "29", "31"]
     schedule:
       interval: monthly
 
