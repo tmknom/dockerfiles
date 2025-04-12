@@ -26,7 +26,7 @@ jobs:
         uses: tmknom/checkout-action@v1
 
       - name: Secure hadolint
-        uses: tmknom/secure-hadolint-action@6b2beed052633600c936710c20c400e4883c188f # v0.2.0
+        uses: tmknom/secure-hadolint-action@6acc3b2cf00010c0c66289914ecf3832b06d0a55 # v0.3.0
 
   dockle:
     name: Lint by Dockle
