@@ -1,6 +1,7 @@
 # Installation
 
-Official container images can be downloaded from [Docker Hub][docker_hub] or [GitHub Container Registry][ghcr].
+We provide lightweight container images for **${NAME}**,  
+which are available from [Docker Hub][docker_hub] or [GitHub Container Registry][ghcr].
 We support popular CPU architectures like `amd64` and `arm64`.
 
 ## Pull
