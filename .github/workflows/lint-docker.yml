@@ -39,16 +39,16 @@ jobs:
         uses: tmknom/checkout-action@v1
 
       - name: Secure Dockle for yamllint
-        uses: tmknom/secure-dockle-action@de64904abbaee35da28dd45cfa7a31e084347ed3 # v0.2.0
+        uses: tmknom/secure-dockle-action@c07e7b3b7abd3b479ccd84762487ebbe78116735 # v0.2.2
         with:
           dockerfile-path: yamllint/Dockerfile
 
       - name: Secure Dockle for prettier
-        uses: tmknom/secure-dockle-action@de64904abbaee35da28dd45cfa7a31e084347ed3 # v0.2.0
+        uses: tmknom/secure-dockle-action@c07e7b3b7abd3b479ccd84762487ebbe78116735 # v0.2.2
         with:
           dockerfile-path: prettier/Dockerfile
 
       - name: Secure Dockle for markdownlint
-        uses: tmknom/secure-dockle-action@de64904abbaee35da28dd45cfa7a31e084347ed3 # v0.2.0
+        uses: tmknom/secure-dockle-action@c07e7b3b7abd3b479ccd84762487ebbe78116735 # v0.2.2
         with:
           dockerfile-path: markdownlint/Dockerfile
