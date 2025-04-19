@@ -206,3 +206,125 @@ jobs:
             --repo "${GITHUB_REPOSITORY}" \
             --cert-oidc-issuer "https://token.actions.githubusercontent.com" \
             --cert-identity "${GITHUB_SERVER_URL}/${JOB_WORKFLOW_REF}"
+
+  docs:
+    if: ${{ inputs.push == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [push, sign]
+    permissions:
+      contents: write
+      packages: read
+      id-token: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: tmknom/checkout-action@v1
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.8.1
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ github.token }}
+
+      - name: Retrieve OIDC Token
+        id: oidc
+        uses: tmknom/retrieve-oidc-token-action@4c373152cedf7f42b1e496e245236449d8d57121 # v0.2.1
+
+      - name: Cosign log verification
+        id: cosign
+        env:
+          GHCR_IMAGE: ${{ needs.push.outputs.ghcr-image }}
+          IMAGE_DIGEST: ${{ needs.push.outputs.digest }}
+          JOB_WORKFLOW_REF: ${{ steps.oidc.outputs.job_workflow_ref }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -x
+          cosign_path="${RUNNER_TEMP}/cosign.log"
+          cosign_trimmed_path="${RUNNER_TEMP}/cosign-trimmed.log"
+          echo "path=${cosign_trimmed_path}" >> "${GITHUB_OUTPUT}"
+
+          cosign verify \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            --certificate-identity "${GITHUB_SERVER_URL}/${JOB_WORKFLOW_REF}" \
+            --certificate-github-workflow-repository "${GITHUB_REPOSITORY}" \
+            --certificate-github-workflow-sha "${GITHUB_SHA}" \
+            "${GHCR_IMAGE}@${IMAGE_DIGEST}" > "${cosign_path}" 2>&1
+
+          head -7 "${cosign_path}" > "${cosign_trimmed_path}"
+          json_line="$(grep '^\[{' "${cosign_path}" | cut -c 1-100)"
+          echo "${json_line}..." >> "${cosign_trimmed_path}"
+
+      - name: GitHub Artifact Attestations log verification
+        id: attestation
+        env:
+          GH_FORCE_TTY: 1 # https://github.com/cli/cli/issues/10047
+          GHCR_IMAGE: ${{ needs.push.outputs.ghcr-image }}
+          IMAGE_DIGEST: ${{ needs.push.outputs.digest }}
+          JOB_WORKFLOW_REF: ${{ steps.oidc.outputs.job_workflow_ref }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -x
+          gh_attestation_path="${RUNNER_TEMP}/gh-attestation.log"
+          gh_attestation_trimmed_path="${RUNNER_TEMP}/gh-attestation-trimmed.log"
+          echo "path=${gh_attestation_trimmed_path}" >> "${GITHUB_OUTPUT}"
+
+          gh attestation verify "oci://${GHCR_IMAGE}@${IMAGE_DIGEST}" \
+            --deny-self-hosted-runners \
+            --repo "${GITHUB_REPOSITORY}" \
+            --cert-oidc-issuer "https://token.actions.githubusercontent.com" \
+            --cert-identity "${GITHUB_SERVER_URL}/${JOB_WORKFLOW_REF}" > "${gh_attestation_path}" 2>&1
+
+          head -2 "${gh_attestation_path}" > "${gh_attestation_trimmed_path}"
+          echo "✓ Verification succeeded!" >> "${gh_attestation_trimmed_path}"
+          echo "..." >> "${gh_attestation_trimmed_path}"
+
+      - name: Generate docs
+        id: docs
+        env:
+          NAME: ${{ inputs.name }}
+          VERSION: ${{ inputs.version }}
+          DOCKER_HUB_IMAGE: ${{ needs.push.outputs.docker-hub-image }}
+          GHCR_IMAGE: ${{ needs.push.outputs.ghcr-image }}
+          IMAGE_DIGEST: ${{ needs.push.outputs.digest }}
+          CERTIFICATE_IDENTITY: ${{ github.server_url }}/${{ steps.oidc.outputs.job_workflow_ref }}
+          CERTIFICATE_OIDC_ISSUER: https://token.actions.githubusercontent.com
+          COSIGN_LOG_PATH: ${{ steps.cosign.outputs.path }}
+          GH_ATTESTATION_LOG_PATH: ${{ steps.attestation.outputs.path }}
+        run: |
+          set -x
+          filepath="${NAME}/installation.md"
+          echo "path=${filepath}" >> "${GITHUB_OUTPUT}"
+
+          COSIGN_VERIFY_SUCCEEDED="$(cat "${COSIGN_LOG_PATH}")"
+          GH_ATTESTATION_SUCCEEDED="$(cat "${GH_ATTESTATION_LOG_PATH}")"
+          export COSIGN_VERIFY_SUCCEEDED
+          export GH_ATTESTATION_SUCCEEDED
+          envsubst < ".github/template.md" > "${filepath}"
+          cat "${filepath}" >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Git Push
+        id: push
+        uses: tmknom/git-push-action@d88b186c540e4179bbb8e228b9c09e1a45677be7 # v0.2.1
+        with:
+          message: 'docs: update installation document for ${{ inputs.name }}'
+
+      - name: Create PR
+        if: ${{ steps.push.outputs.pushed == 'true' }}
+        env:
+          PR_BRANCH: ${{ steps.push.outputs.branch }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -x
+          gh pr create --base "${DEFAULT_BRANCH}" --head "${PR_BRANCH}" --fill-first
+
+      - name: Merge PR
+        if: ${{ steps.push.outputs.pushed == 'true' }}
+        uses: tmknom/merge-pr-action@857c5b4c314243e3ca49288468e062b82060078a # v0.3.0
+        with:
+          pull-request: ${{ steps.push.outputs.branch }}
