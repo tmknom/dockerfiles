@@ -32,6 +32,11 @@ docker pull ghcr.io/tmknom/dockerfiles/markdownlint
 
 For more information, see [GitHub Packages](https://github.com/tmknom/dockerfiles/pkgs/container/dockerfiles%2Fmarkdownlint).
 
+## Installation and Verification
+
+For step-by-step instructions on pulling the image and verifying its authenticity,  
+see the [Installation guide](/markdownlint/installation.md).
+
 ## Usage
 
 ### Lint a Markdown file
