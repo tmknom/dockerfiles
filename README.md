@@ -85,12 +85,6 @@ For more information, see [markdownlint/README.md](/markdownlint/README.md).
 2. Define docker image: `Dockerfile`, `entrypoint.sh`, `.dockerignore`
 3. Manage package file: `package.json` or `requirements.txt`
 
-#### Testing for a new Docker Image
-
-1. Create `.github/tests/<image_name>/` directory
-2. Write test script: `test.sh`
-3. Add test fixtures: `valid_<extension>.txt` and `invalid_<extension>.txt`
-
 #### Management for releasing and updating dependencies
 
 1. Create release action: `.github/workflows/release-<image_name>.yml`
@@ -100,26 +94,6 @@ For more information, see [markdownlint/README.md](/markdownlint/README.md).
 
 1. Write details for the new docker image: `<image_name>/README.md`
 2. Update description and append usage: `README.md`
-
-### Test
-
-Run the following command:
-
-```shell
-make test
-```
-
-Then pull image from Docker Hub and GitHub Packages, and run test scripts.
-
-### CI
-
-When create a pull request, the following workflows are executed automatically at GitHub Actions.
-
-- [Lint Docker](/.github/workflows/lint-docker.yml)
-- [Lint YAML](/.github/workflows/lint-yaml.yml)
-- [Lint Markdown](/.github/workflows/lint-markdown.yml)
-- [Lint Shell](/.github/workflows/lint-shell.yml)
-- [Lint Action](/.github/workflows/lint-action.yml)
 
 ### Release management
 
@@ -136,49 +110,8 @@ For more information, see [dependabot.yml](/.github/dependabot.yml).
 
 ### Secrets management
 
-Stored environment secrets for the following environments in this repository.
-
-#### release
-
-Reference from releasing workflows such as `.github/workflows/release-prettier.yml`.
+Stored following secrets in Repository Secrets.
 
 - `DOCKERHUB_TOKEN`: Personal access token used to log against Docker Hub.
 
-### Versioning of the entire repository
-
-#### 1. Bump up to a new version
-
-Run the following command to bump up.
-
-```shell
-make bump
-```
-
-This command will execute the following steps:
-
-1. Update [VERSION](/VERSION)
-2. Commit, push, and create a pull request
-3. Open the web browser automatically for reviewing pull request
-
-Then review and merge, so the release is ready to go.
-
-#### 2. Publish the new version
-
-Run the following command to publish a new tag at GitHub.
-
-```shell
-make release
-```
-
-Finally, we can use the new version! :tada:
-
-</details>
 <!-- markdownlint-enable no-inline-html -->
-
-## Changelog
-
-See [CHANGELOG.md](/CHANGELOG.md).
-
-## License
-
-Apache 2 Licensed. See [LICENSE](/LICENSE) for full details.

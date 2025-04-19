@@ -59,7 +59,3 @@ docker run --rm tmknom/yamllint --help
 ## Source repository
 
 - [tmknom/dockerfiles](https://github.com/tmknom/dockerfiles/)
-
-## License
-
-Apache 2 Licensed. See [LICENSE](/LICENSE) for full details.
