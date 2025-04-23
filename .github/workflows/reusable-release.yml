@@ -325,6 +325,6 @@ jobs:
 
       - name: Merge PR
         if: ${{ steps.push.outputs.pushed == 'true' }}
-        uses: tmknom/merge-pull-request-action@857c5b4c314243e3ca49288468e062b82060078a # v0.3.0
+        uses: tmknom/merge-pull-request-action@fc1f26011c2b31409c37a4ac9792d68bdc29321c # v0.4.0
         with:
           pull-request: ${{ steps.push.outputs.branch }}
