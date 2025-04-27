@@ -220,6 +220,8 @@ jobs:
     steps:
       - name: Checkout
         uses: tmknom/checkout-action@v1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@3454372f43399081ed03b604cb2d021dabca52bb # v3.8.2
@@ -309,19 +311,18 @@ jobs:
 
       - name: Git Push
         id: push
-        uses: tmknom/git-push-action@600da3868b2ab03e581b51e02405adceeabeda31 # v0.4.0
+        uses: tmknom/git-push-action@35e575c65fe25a9a1d405506aef867aa0aa9aad2 # v0.5.0
         with:
           message: 'docs: update installation document for ${{ inputs.name }}'
+          paths: ${{ steps.docs.outputs.path }}
 
-      - name: Create PR
+      - name: Create Pull Request
         if: ${{ steps.push.outputs.pushed == 'true' }}
-        env:
-          PR_BRANCH: ${{ steps.push.outputs.branch }}
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          set -x
-          gh pr create --base "${DEFAULT_BRANCH}" --head "${PR_BRANCH}" --fill-first
+        uses: tmknom/create-pull-request-action@7568b72a4ec0bea56d0df3415bc838531f9d8909 # v0.1.0
+        with:
+          head-branch: ${{ steps.push.outputs.branch }}
+          title: ${{ steps.push.outputs.subject }}
+          body: ${{ steps.push.outputs.body }}
 
       - name: Merge PR
         if: ${{ steps.push.outputs.pushed == 'true' }}
