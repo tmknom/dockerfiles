@@ -32,13 +32,13 @@ docker pull ghcr.io/tmknom/dockerfiles/markdownlint:latest
 **Docker Hub:**
 
 ```shell
-docker pull tmknom/markdownlint:0.44.0
+docker pull tmknom/markdownlint:0.45.0
 ```
 
 **GitHub Container Registry:**
 
 ```shell
-docker pull ghcr.io/tmknom/dockerfiles/markdownlint:0.44.0
+docker pull ghcr.io/tmknom/dockerfiles/markdownlint:0.45.0
 ```
 
 ### Specify digest
@@ -46,13 +46,13 @@ docker pull ghcr.io/tmknom/dockerfiles/markdownlint:0.44.0
 **Docker Hub:**
 
 ```shell
-docker pull tmknom/markdownlint@sha256:8b70cb7df562a5807951b142585508a644bd410d0c8b9447e3fb5f25b8b62f88
+docker pull tmknom/markdownlint@sha256:a9509a9d50a82781aa4cd0a48f182da55233071fb19454bc70cecc2782359c3c
 ```
 
 **GitHub Container Registry:**
 
 ```shell
-docker pull ghcr.io/tmknom/dockerfiles/markdownlint@sha256:8b70cb7df562a5807951b142585508a644bd410d0c8b9447e3fb5f25b8b62f88
+docker pull ghcr.io/tmknom/dockerfiles/markdownlint@sha256:a9509a9d50a82781aa4cd0a48f182da55233071fb19454bc70cecc2782359c3c
 ```
 
 > [!TIP]
@@ -80,8 +80,8 @@ cosign verify \
   --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
   --certificate-identity "https://github.com/tmknom/dockerfiles/.github/workflows/reusable-release.yml@refs/heads/main" \
   --certificate-github-workflow-repository "tmknom/dockerfiles" \
-  --certificate-github-workflow-sha "0f2d00b651254e9ecebc3edbdef7d0f7e206edf0" \
-  tmknom/markdownlint@sha256:8b70cb7df562a5807951b142585508a644bd410d0c8b9447e3fb5f25b8b62f88
+  --certificate-github-workflow-sha "ea5b67610fd7e832358071abe709b12b6d05ba62" \
+  tmknom/markdownlint@sha256:a9509a9d50a82781aa4cd0a48f182da55233071fb19454bc70cecc2782359c3c
 ```
 
 **GitHub Container Registry:**
@@ -91,8 +91,8 @@ cosign verify \
   --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
   --certificate-identity "https://github.com/tmknom/dockerfiles/.github/workflows/reusable-release.yml@refs/heads/main" \
   --certificate-github-workflow-repository "tmknom/dockerfiles" \
-  --certificate-github-workflow-sha "0f2d00b651254e9ecebc3edbdef7d0f7e206edf0" \
-  ghcr.io/tmknom/dockerfiles/markdownlint@sha256:8b70cb7df562a5807951b142585508a644bd410d0c8b9447e3fb5f25b8b62f88
+  --certificate-github-workflow-sha "ea5b67610fd7e832358071abe709b12b6d05ba62" \
+  ghcr.io/tmknom/dockerfiles/markdownlint@sha256:a9509a9d50a82781aa4cd0a48f182da55233071fb19454bc70cecc2782359c3c
 ```
 
 <details>
@@ -100,7 +100,7 @@ cosign verify \
 
 ```shell
 
-Verification for ghcr.io/tmknom/dockerfiles/markdownlint@sha256:8b70cb7df562a5807951b142585508a644bd410d0c8b9447e3fb5f25b8b62f88 --
+Verification for ghcr.io/tmknom/dockerfiles/markdownlint@sha256:a9509a9d50a82781aa4cd0a48f182da55233071fb19454bc70cecc2782359c3c --
 The following checks were performed on each of these signatures:
   - The cosign claims were validated
   - Existence of the claims in the transparency log was verified offline
@@ -118,7 +118,7 @@ GitHub Artifact Attestations allows you to confirm that the image was built by a
 **Docker Hub:**
 
 ```shell
-gh attestation verify oci://tmknom/markdownlint@sha256:8b70cb7df562a5807951b142585508a644bd410d0c8b9447e3fb5f25b8b62f88 \
+gh attestation verify oci://tmknom/markdownlint@sha256:a9509a9d50a82781aa4cd0a48f182da55233071fb19454bc70cecc2782359c3c \
   --deny-self-hosted-runners \
   --repo "tmknom/dockerfiles" \
   --cert-oidc-issuer "https://token.actions.githubusercontent.com" \
@@ -128,7 +128,7 @@ gh attestation verify oci://tmknom/markdownlint@sha256:8b70cb7df562a5807951b1425
 **GitHub Container Registry:**
 
 ```shell
-gh attestation verify oci://ghcr.io/tmknom/dockerfiles/markdownlint@sha256:8b70cb7df562a5807951b142585508a644bd410d0c8b9447e3fb5f25b8b62f88 \
+gh attestation verify oci://ghcr.io/tmknom/dockerfiles/markdownlint@sha256:a9509a9d50a82781aa4cd0a48f182da55233071fb19454bc70cecc2782359c3c \
   --deny-self-hosted-runners \
   --repo "tmknom/dockerfiles" \
   --cert-oidc-issuer "https://token.actions.githubusercontent.com" \
@@ -139,7 +139,7 @@ gh attestation verify oci://ghcr.io/tmknom/dockerfiles/markdownlint@sha256:8b70c
 <summary>Example output: verification succeeded</summary>
 
 ```shell
-Loaded digest sha256:8b70cb7df562a5807951b142585508a644bd410d0c8b9447e3fb5f25b8b62f88 for oci://ghcr.io/tmknom/dockerfiles/markdownlint@sha256:8b70cb7df562a5807951b142585508a644bd410d0c8b9447e3fb5f25b8b62f88
+Loaded digest sha256:a9509a9d50a82781aa4cd0a48f182da55233071fb19454bc70cecc2782359c3c for oci://ghcr.io/tmknom/dockerfiles/markdownlint@sha256:a9509a9d50a82781aa4cd0a48f182da55233071fb19454bc70cecc2782359c3c
 Loaded 2 attestations from GitHub API
 ✓ Verification succeeded!
 ...
