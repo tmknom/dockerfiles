@@ -32,13 +32,13 @@ docker pull ghcr.io/tmknom/dockerfiles/yamllint:latest
 **Docker Hub:**
 
 ```shell
-docker pull tmknom/yamllint:1.37.0
+docker pull tmknom/yamllint:1.37.1
 ```
 
 **GitHub Container Registry:**
 
 ```shell
-docker pull ghcr.io/tmknom/dockerfiles/yamllint:1.37.0
+docker pull ghcr.io/tmknom/dockerfiles/yamllint:1.37.1
 ```
 
 ### Specify digest
@@ -46,13 +46,13 @@ docker pull ghcr.io/tmknom/dockerfiles/yamllint:1.37.0
 **Docker Hub:**
 
 ```shell
-docker pull tmknom/yamllint@sha256:18089839494979cb8158814e755b8d77e65011305e4345f4837d1e11f2fbf98c
+docker pull tmknom/yamllint@sha256:cef98951460af36b1818feacaf5bf6241521f67bb6c039e3cb8c0a73e16807e4
 ```
 
 **GitHub Container Registry:**
 
 ```shell
-docker pull ghcr.io/tmknom/dockerfiles/yamllint@sha256:18089839494979cb8158814e755b8d77e65011305e4345f4837d1e11f2fbf98c
+docker pull ghcr.io/tmknom/dockerfiles/yamllint@sha256:cef98951460af36b1818feacaf5bf6241521f67bb6c039e3cb8c0a73e16807e4
 ```
 
 > [!TIP]
@@ -80,8 +80,8 @@ cosign verify \
   --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
   --certificate-identity "https://github.com/tmknom/dockerfiles/.github/workflows/reusable-release.yml@refs/heads/main" \
   --certificate-github-workflow-repository "tmknom/dockerfiles" \
-  --certificate-github-workflow-sha "575c9d47da42de12f5c5968ace9909831faa3993" \
-  tmknom/yamllint@sha256:18089839494979cb8158814e755b8d77e65011305e4345f4837d1e11f2fbf98c
+  --certificate-github-workflow-sha "49f7f4003fe0184da946fbb38ae295d8c899913b" \
+  tmknom/yamllint@sha256:cef98951460af36b1818feacaf5bf6241521f67bb6c039e3cb8c0a73e16807e4
 ```
 
 **GitHub Container Registry:**
@@ -91,8 +91,8 @@ cosign verify \
   --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
   --certificate-identity "https://github.com/tmknom/dockerfiles/.github/workflows/reusable-release.yml@refs/heads/main" \
   --certificate-github-workflow-repository "tmknom/dockerfiles" \
-  --certificate-github-workflow-sha "575c9d47da42de12f5c5968ace9909831faa3993" \
-  ghcr.io/tmknom/dockerfiles/yamllint@sha256:18089839494979cb8158814e755b8d77e65011305e4345f4837d1e11f2fbf98c
+  --certificate-github-workflow-sha "49f7f4003fe0184da946fbb38ae295d8c899913b" \
+  ghcr.io/tmknom/dockerfiles/yamllint@sha256:cef98951460af36b1818feacaf5bf6241521f67bb6c039e3cb8c0a73e16807e4
 ```
 
 <details>
@@ -100,7 +100,7 @@ cosign verify \
 
 ```shell
 
-Verification for ghcr.io/tmknom/dockerfiles/yamllint@sha256:18089839494979cb8158814e755b8d77e65011305e4345f4837d1e11f2fbf98c --
+Verification for ghcr.io/tmknom/dockerfiles/yamllint@sha256:cef98951460af36b1818feacaf5bf6241521f67bb6c039e3cb8c0a73e16807e4 --
 The following checks were performed on each of these signatures:
   - The cosign claims were validated
   - Existence of the claims in the transparency log was verified offline
@@ -118,7 +118,7 @@ GitHub Artifact Attestations allows you to confirm that the image was built by a
 **Docker Hub:**
 
 ```shell
-gh attestation verify oci://tmknom/yamllint@sha256:18089839494979cb8158814e755b8d77e65011305e4345f4837d1e11f2fbf98c \
+gh attestation verify oci://tmknom/yamllint@sha256:cef98951460af36b1818feacaf5bf6241521f67bb6c039e3cb8c0a73e16807e4 \
   --deny-self-hosted-runners \
   --repo "tmknom/dockerfiles" \
   --cert-oidc-issuer "https://token.actions.githubusercontent.com" \
@@ -128,7 +128,7 @@ gh attestation verify oci://tmknom/yamllint@sha256:18089839494979cb8158814e755b8
 **GitHub Container Registry:**
 
 ```shell
-gh attestation verify oci://ghcr.io/tmknom/dockerfiles/yamllint@sha256:18089839494979cb8158814e755b8d77e65011305e4345f4837d1e11f2fbf98c \
+gh attestation verify oci://ghcr.io/tmknom/dockerfiles/yamllint@sha256:cef98951460af36b1818feacaf5bf6241521f67bb6c039e3cb8c0a73e16807e4 \
   --deny-self-hosted-runners \
   --repo "tmknom/dockerfiles" \
   --cert-oidc-issuer "https://token.actions.githubusercontent.com" \
@@ -139,7 +139,7 @@ gh attestation verify oci://ghcr.io/tmknom/dockerfiles/yamllint@sha256:180898394
 <summary>Example output: verification succeeded</summary>
 
 ```shell
-Loaded digest sha256:18089839494979cb8158814e755b8d77e65011305e4345f4837d1e11f2fbf98c for oci://ghcr.io/tmknom/dockerfiles/yamllint@sha256:18089839494979cb8158814e755b8d77e65011305e4345f4837d1e11f2fbf98c
+Loaded digest sha256:cef98951460af36b1818feacaf5bf6241521f67bb6c039e3cb8c0a73e16807e4 for oci://ghcr.io/tmknom/dockerfiles/yamllint@sha256:cef98951460af36b1818feacaf5bf6241521f67bb6c039e3cb8c0a73e16807e4
 Loaded 2 attestations from GitHub API
 ✓ Verification succeeded!
 ...
