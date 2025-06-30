@@ -32,13 +32,13 @@ docker pull ghcr.io/tmknom/dockerfiles/prettier:latest
 **Docker Hub:**
 
 ```shell
-docker pull tmknom/prettier:3.6.1
+docker pull tmknom/prettier:3.6.2
 ```
 
 **GitHub Container Registry:**
 
 ```shell
-docker pull ghcr.io/tmknom/dockerfiles/prettier:3.6.1
+docker pull ghcr.io/tmknom/dockerfiles/prettier:3.6.2
 ```
 
 ### Specify digest
@@ -46,13 +46,13 @@ docker pull ghcr.io/tmknom/dockerfiles/prettier:3.6.1
 **Docker Hub:**
 
 ```shell
-docker pull tmknom/prettier@sha256:df2d4dfcd07fc23af8ef612f504aa5430910d4f8fab487c851f018c96d57fa85
+docker pull tmknom/prettier@sha256:31684fd957f78ddebd0fc003f2790da08bd7a41cfe1146912da43a114fbeebf9
 ```
 
 **GitHub Container Registry:**
 
 ```shell
-docker pull ghcr.io/tmknom/dockerfiles/prettier@sha256:df2d4dfcd07fc23af8ef612f504aa5430910d4f8fab487c851f018c96d57fa85
+docker pull ghcr.io/tmknom/dockerfiles/prettier@sha256:31684fd957f78ddebd0fc003f2790da08bd7a41cfe1146912da43a114fbeebf9
 ```
 
 > [!TIP]
@@ -80,8 +80,8 @@ cosign verify \
   --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
   --certificate-identity "https://github.com/tmknom/dockerfiles/.github/workflows/reusable-release.yml@refs/heads/main" \
   --certificate-github-workflow-repository "tmknom/dockerfiles" \
-  --certificate-github-workflow-sha "9590ecd1b57584dcf458c446043de5eee1d89d6b" \
-  tmknom/prettier@sha256:df2d4dfcd07fc23af8ef612f504aa5430910d4f8fab487c851f018c96d57fa85
+  --certificate-github-workflow-sha "b2f82591b33718f5e0514ca659ff79a219439b41" \
+  tmknom/prettier@sha256:31684fd957f78ddebd0fc003f2790da08bd7a41cfe1146912da43a114fbeebf9
 ```
 
 **GitHub Container Registry:**
@@ -91,8 +91,8 @@ cosign verify \
   --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
   --certificate-identity "https://github.com/tmknom/dockerfiles/.github/workflows/reusable-release.yml@refs/heads/main" \
   --certificate-github-workflow-repository "tmknom/dockerfiles" \
-  --certificate-github-workflow-sha "9590ecd1b57584dcf458c446043de5eee1d89d6b" \
-  ghcr.io/tmknom/dockerfiles/prettier@sha256:df2d4dfcd07fc23af8ef612f504aa5430910d4f8fab487c851f018c96d57fa85
+  --certificate-github-workflow-sha "b2f82591b33718f5e0514ca659ff79a219439b41" \
+  ghcr.io/tmknom/dockerfiles/prettier@sha256:31684fd957f78ddebd0fc003f2790da08bd7a41cfe1146912da43a114fbeebf9
 ```
 
 <details>
@@ -100,7 +100,7 @@ cosign verify \
 
 ```shell
 
-Verification for ghcr.io/tmknom/dockerfiles/prettier@sha256:df2d4dfcd07fc23af8ef612f504aa5430910d4f8fab487c851f018c96d57fa85 --
+Verification for ghcr.io/tmknom/dockerfiles/prettier@sha256:31684fd957f78ddebd0fc003f2790da08bd7a41cfe1146912da43a114fbeebf9 --
 The following checks were performed on each of these signatures:
   - The cosign claims were validated
   - Existence of the claims in the transparency log was verified offline
@@ -118,7 +118,7 @@ GitHub Artifact Attestations allows you to confirm that the image was built by a
 **Docker Hub:**
 
 ```shell
-gh attestation verify oci://tmknom/prettier@sha256:df2d4dfcd07fc23af8ef612f504aa5430910d4f8fab487c851f018c96d57fa85 \
+gh attestation verify oci://tmknom/prettier@sha256:31684fd957f78ddebd0fc003f2790da08bd7a41cfe1146912da43a114fbeebf9 \
   --deny-self-hosted-runners \
   --repo "tmknom/dockerfiles" \
   --cert-oidc-issuer "https://token.actions.githubusercontent.com" \
@@ -128,7 +128,7 @@ gh attestation verify oci://tmknom/prettier@sha256:df2d4dfcd07fc23af8ef612f504aa
 **GitHub Container Registry:**
 
 ```shell
-gh attestation verify oci://ghcr.io/tmknom/dockerfiles/prettier@sha256:df2d4dfcd07fc23af8ef612f504aa5430910d4f8fab487c851f018c96d57fa85 \
+gh attestation verify oci://ghcr.io/tmknom/dockerfiles/prettier@sha256:31684fd957f78ddebd0fc003f2790da08bd7a41cfe1146912da43a114fbeebf9 \
   --deny-self-hosted-runners \
   --repo "tmknom/dockerfiles" \
   --cert-oidc-issuer "https://token.actions.githubusercontent.com" \
@@ -139,7 +139,7 @@ gh attestation verify oci://ghcr.io/tmknom/dockerfiles/prettier@sha256:df2d4dfcd
 <summary>Example output: verification succeeded</summary>
 
 ```shell
-Loaded digest sha256:df2d4dfcd07fc23af8ef612f504aa5430910d4f8fab487c851f018c96d57fa85 for oci://ghcr.io/tmknom/dockerfiles/prettier@sha256:df2d4dfcd07fc23af8ef612f504aa5430910d4f8fab487c851f018c96d57fa85
+Loaded digest sha256:31684fd957f78ddebd0fc003f2790da08bd7a41cfe1146912da43a114fbeebf9 for oci://ghcr.io/tmknom/dockerfiles/prettier@sha256:31684fd957f78ddebd0fc003f2790da08bd7a41cfe1146912da43a114fbeebf9
 Loaded 2 attestations from GitHub API
 ✓ Verification succeeded!
 ...
